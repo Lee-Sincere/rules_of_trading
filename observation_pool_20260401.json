@@ -1,0 +1,692 @@
+{
+  "date": "20260401",
+  "generated_at": "2026-04-01 23:51:12",
+  "sentiment": {
+    "up_count": 4113,
+    "down_count": 797,
+    "flat_count": 101,
+    "zt_count": 56,
+    "zb_count": 38,
+    "zb_rate": 0.4043,
+    "sentiment": "混沌",
+    "position": "5成"
+  },
+  "main_sectors": [
+    {
+      "name": "化学制药",
+      "limit_up_count": 6,
+      "max_boards": 4,
+      "multi_board_count": 1,
+      "earliest_seal": "093013",
+      "volume_billion": 34.2878,
+      "score_6d": 87.5917,
+      "continuity_rating": "高",
+      "continuity_reasons": [
+        "最高4连板，梯队极佳",
+        "首板宽度5只，跟风效应强",
+        "大盘上涨，与指数正向共振"
+      ],
+      "zb_count": 3,
+      "avg_gain_pct": 11.66,
+      "stocks": [
+        {
+          "code": "600488",
+          "name": "津药药业",
+          "boards": 4,
+          "seal_time": "093013",
+          "explode_count": 0,
+          "volume_billion": 2.1228
+        },
+        {
+          "code": "002923",
+          "name": "润都股份",
+          "boards": 1,
+          "seal_time": "093603",
+          "explode_count": 0,
+          "volume_billion": 1.4553
+        },
+        {
+          "code": "002940",
+          "name": "昂利康",
+          "boards": 1,
+          "seal_time": "100554",
+          "explode_count": 0,
+          "volume_billion": 7.2725
+        },
+        {
+          "code": "600851",
+          "name": "海欣股份",
+          "boards": 1,
+          "seal_time": "101736",
+          "explode_count": 0,
+          "volume_billion": 1.4652
+        },
+        {
+          "code": "000788",
+          "name": "北大医药",
+          "boards": 1,
+          "seal_time": "103600",
+          "explode_count": 0,
+          "volume_billion": 4.2246
+        },
+        {
+          "code": "300436",
+          "name": "广生堂",
+          "boards": 1,
+          "seal_time": "110030",
+          "explode_count": 0,
+          "volume_billion": 17.7474
+        }
+      ]
+    },
+    {
+      "name": "医疗服务",
+      "limit_up_count": 2,
+      "max_boards": 2,
+      "multi_board_count": 1,
+      "earliest_seal": "101506",
+      "volume_billion": 30.7237,
+      "score_6d": 51.4628,
+      "continuity_rating": "中",
+      "continuity_reasons": [
+        "最高2连板，梯队良好",
+        "大盘上涨，与指数正向共振"
+      ],
+      "zb_count": 0,
+      "avg_gain_pct": 15.0,
+      "stocks": [
+        {
+          "code": "300149",
+          "name": "睿智医药",
+          "boards": 1,
+          "seal_time": "101506",
+          "explode_count": 0,
+          "volume_billion": 8.35
+        },
+        {
+          "code": "002821",
+          "name": "凯莱英",
+          "boards": 2,
+          "seal_time": "103206",
+          "explode_count": 1,
+          "volume_billion": 22.3737
+        }
+      ]
+    },
+    {
+      "name": "塑料",
+      "limit_up_count": 1,
+      "max_boards": 2,
+      "multi_board_count": 1,
+      "earliest_seal": "093000",
+      "volume_billion": 6.472,
+      "score_6d": 49.4294,
+      "continuity_rating": "中",
+      "continuity_reasons": [
+        "最高2连板，梯队良好",
+        "大盘上涨，与指数正向共振"
+      ],
+      "zb_count": 0,
+      "avg_gain_pct": 20.0,
+      "stocks": [
+        {
+          "code": "300834",
+          "name": "星辉环材",
+          "boards": 2,
+          "seal_time": "093000",
+          "explode_count": 2,
+          "volume_billion": 6.472
+        }
+      ]
+    },
+    {
+      "name": "电网设备",
+      "limit_up_count": 1,
+      "max_boards": 2,
+      "multi_board_count": 1,
+      "earliest_seal": "093312",
+      "volume_billion": 9.8109,
+      "score_6d": 47.4704,
+      "continuity_rating": "中",
+      "continuity_reasons": [
+        "最高2连板，梯队良好",
+        "大盘上涨，与指数正向共振"
+      ],
+      "zb_count": 1,
+      "avg_gain_pct": 10.01,
+      "stocks": [
+        {
+          "code": "002560",
+          "name": "通达股份",
+          "boards": 2,
+          "seal_time": "093312",
+          "explode_count": 2,
+          "volume_billion": 9.8109
+        }
+      ]
+    },
+    {
+      "name": "电力",
+      "limit_up_count": 1,
+      "max_boards": 2,
+      "multi_board_count": 1,
+      "earliest_seal": "102255",
+      "volume_billion": 6.6423,
+      "score_6d": 43.09,
+      "continuity_rating": "中",
+      "continuity_reasons": [
+        "最高2连板，梯队良好",
+        "大盘上涨，与指数正向共振"
+      ],
+      "zb_count": 1,
+      "avg_gain_pct": 9.99,
+      "stocks": [
+        {
+          "code": "605162",
+          "name": "新中港",
+          "boards": 2,
+          "seal_time": "102255",
+          "explode_count": 2,
+          "volume_billion": 6.6423
+        }
+      ]
+    }
+  ],
+  "observation_pool": {
+    "leaders": [
+      {
+        "code": "600488",
+        "name": "津药药业",
+        "sector": "化学制药",
+        "boards": 4,
+        "seal_time": "093013",
+        "volume_billion": 2.1228,
+        "explode_count": 0,
+        "role": "龙头"
+      },
+      {
+        "code": "002923",
+        "name": "润都股份",
+        "sector": "化学制药",
+        "boards": 1,
+        "seal_time": "093603",
+        "volume_billion": 1.4553,
+        "explode_count": 0,
+        "role": "龙头"
+      },
+      {
+        "code": "002821",
+        "name": "凯莱英",
+        "sector": "医疗服务",
+        "boards": 2,
+        "seal_time": "103206",
+        "volume_billion": 22.3737,
+        "explode_count": 1,
+        "role": "龙头"
+      },
+      {
+        "code": "300149",
+        "name": "睿智医药",
+        "sector": "医疗服务",
+        "boards": 1,
+        "seal_time": "101506",
+        "volume_billion": 8.35,
+        "explode_count": 0,
+        "role": "龙头"
+      }
+    ],
+    "army": [
+      {
+        "code": "300436",
+        "name": "广生堂",
+        "sector": "化学制药",
+        "boards": 1,
+        "seal_time": "110030",
+        "volume_billion": 17.7474,
+        "explode_count": 0,
+        "role": "中军"
+      },
+      {
+        "code": "002940",
+        "name": "昂利康",
+        "sector": "化学制药",
+        "boards": 1,
+        "seal_time": "100554",
+        "volume_billion": 7.2725,
+        "explode_count": 0,
+        "role": "中军"
+      },
+      {
+        "code": "000788",
+        "name": "北大医药",
+        "sector": "化学制药",
+        "boards": 1,
+        "seal_time": "103600",
+        "volume_billion": 4.2246,
+        "explode_count": 0,
+        "role": "中军"
+      },
+      {
+        "code": "002821",
+        "name": "凯莱英",
+        "sector": "医疗服务",
+        "boards": 2,
+        "seal_time": "103206",
+        "volume_billion": 22.3737,
+        "explode_count": 1,
+        "role": "中军"
+      },
+      {
+        "code": "300149",
+        "name": "睿智医药",
+        "sector": "医疗服务",
+        "boards": 1,
+        "seal_time": "101506",
+        "volume_billion": 8.35,
+        "explode_count": 0,
+        "role": "中军"
+      }
+    ],
+    "quant_top15": [
+      {
+        "code": "301008",
+        "name": "宏昌科技",
+        "sector": "--",
+        "score": 57.2389,
+        "gain_pct": 5.37,
+        "vol_ratio": 4.06,
+        "turnover_pct": 28.27,
+        "lead_net_pct": 0.0,
+        "boards": 0
+      },
+      {
+        "code": "301188",
+        "name": "力诺药包",
+        "sector": "医疗器械",
+        "score": 56.7035,
+        "gain_pct": 20.01,
+        "vol_ratio": 7.41,
+        "turnover_pct": 14.33,
+        "lead_net_pct": 0.0,
+        "boards": 0
+      },
+      {
+        "code": "600594",
+        "name": "益佰制药",
+        "sector": "中药Ⅱ",
+        "score": 54.7008,
+        "gain_pct": 10.1,
+        "vol_ratio": 7.02,
+        "turnover_pct": 11.75,
+        "lead_net_pct": 0.0,
+        "boards": 0
+      },
+      {
+        "code": "300149",
+        "name": "睿智医药",
+        "sector": "医疗服务",
+        "score": 50.579,
+        "gain_pct": 20.0,
+        "vol_ratio": 4.82,
+        "turnover_pct": 14.89,
+        "lead_net_pct": 0.0,
+        "boards": 0
+      },
+      {
+        "code": "603193",
+        "name": "润本股份",
+        "sector": "个护用品",
+        "score": 50.3616,
+        "gain_pct": 9.98,
+        "vol_ratio": 5.83,
+        "turnover_pct": 11.17,
+        "lead_net_pct": 0.0,
+        "boards": 0
+      },
+      {
+        "code": "301683",
+        "name": "N慧谷",
+        "sector": "--",
+        "score": 49.241,
+        "gain_pct": 61.66,
+        "vol_ratio": 0.0,
+        "turnover_pct": 75.87,
+        "lead_net_pct": 0.0,
+        "boards": 0
+      },
+      {
+        "code": "301392",
+        "name": "汇成真空",
+        "sector": "专用设备",
+        "score": 48.9376,
+        "gain_pct": 20.0,
+        "vol_ratio": 4.54,
+        "turnover_pct": 21.53,
+        "lead_net_pct": 0.0,
+        "boards": 0
+      },
+      {
+        "code": "300204",
+        "name": "舒泰神",
+        "sector": "--",
+        "score": 48.5485,
+        "gain_pct": 8.56,
+        "vol_ratio": 2.26,
+        "turnover_pct": 24.09,
+        "lead_net_pct": 0.0,
+        "boards": 0
+      }
+    ]
+  },
+  "all_board_stocks": [
+    {
+      "code": "600488",
+      "name": "津药药业",
+      "boards": 4,
+      "seal_time": "093013",
+      "explode_count": 0,
+      "volume_billion": 2.1228,
+      "sector": "化学制药"
+    },
+    {
+      "code": "300834",
+      "name": "星辉环材",
+      "boards": 2,
+      "seal_time": "093000",
+      "explode_count": 2,
+      "volume_billion": 6.472,
+      "sector": "塑料"
+    },
+    {
+      "code": "002560",
+      "name": "通达股份",
+      "boards": 2,
+      "seal_time": "093312",
+      "explode_count": 2,
+      "volume_billion": 9.8109,
+      "sector": "电网设备"
+    },
+    {
+      "code": "605162",
+      "name": "新中港",
+      "boards": 2,
+      "seal_time": "102255",
+      "explode_count": 2,
+      "volume_billion": 6.6423,
+      "sector": "电力"
+    },
+    {
+      "code": "002821",
+      "name": "凯莱英",
+      "boards": 2,
+      "seal_time": "103206",
+      "explode_count": 1,
+      "volume_billion": 22.3737,
+      "sector": "医疗服务"
+    }
+  ],
+  "concept_top20": [
+    {
+      "name": "创新药",
+      "score": 85.8562,
+      "limit_count": 13,
+      "gain_pct": 4.7,
+      "rela_pct": 3.24,
+      "turnover_z": 4.87,
+      "signals": [
+        "旗舰",
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 3
+    },
+    {
+      "name": "免疫治疗",
+      "score": 66.5084,
+      "limit_count": 2,
+      "gain_pct": 4.88,
+      "rela_pct": 3.43,
+      "turnover_z": 5.34,
+      "signals": [
+        "旗舰",
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 3
+    },
+    {
+      "name": "仿制药",
+      "score": 65.8501,
+      "limit_count": 4,
+      "gain_pct": 4.25,
+      "rela_pct": 2.79,
+      "turnover_z": 4.18,
+      "signals": [
+        "旗舰",
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 3
+    },
+    {
+      "name": "CXO概念",
+      "score": 65.8165,
+      "limit_count": 2,
+      "gain_pct": 4.98,
+      "rela_pct": 3.52,
+      "turnover_z": 6.37,
+      "signals": [
+        "旗舰",
+        "量异",
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 4
+    },
+    {
+      "name": "新型烟草",
+      "score": 63.0839,
+      "limit_count": 5,
+      "gain_pct": 3.03,
+      "rela_pct": 1.58,
+      "turnover_z": 7.32,
+      "signals": [
+        "量异",
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 3
+    },
+    {
+      "name": "肝炎概念",
+      "score": 61.1793,
+      "limit_count": 3,
+      "gain_pct": 3.66,
+      "rela_pct": 2.2,
+      "turnover_z": 4.87,
+      "signals": [
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 2
+    },
+    {
+      "name": "幽门螺杆菌",
+      "score": 60.3409,
+      "limit_count": 3,
+      "gain_pct": 3.3,
+      "rela_pct": 1.85,
+      "turnover_z": 5.5,
+      "signals": [
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 2
+    },
+    {
+      "name": "CPO概念",
+      "score": 58.418,
+      "limit_count": 5,
+      "gain_pct": 3.64,
+      "rela_pct": 2.19,
+      "turnover_z": 5.85,
+      "signals": [
+        "趋势",
+        "形态",
+        "攻守"
+      ],
+      "signal_count": 3
+    },
+    {
+      "name": "数据中心",
+      "score": 52.5746,
+      "limit_count": 14,
+      "gain_pct": 2.3,
+      "rela_pct": 0.84,
+      "turnover_z": 4.78,
+      "signals": [
+        "攻守"
+      ],
+      "signal_count": 1
+    },
+    {
+      "name": "辅助生殖",
+      "score": 52.2503,
+      "limit_count": 2,
+      "gain_pct": 3.51,
+      "rela_pct": 2.06,
+      "turnover_z": 4.83,
+      "signals": [
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 2
+    },
+    {
+      "name": "生物疫苗",
+      "score": 51.4672,
+      "limit_count": 2,
+      "gain_pct": 3.36,
+      "rela_pct": 1.91,
+      "turnover_z": 4.1,
+      "signals": [
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 2
+    },
+    {
+      "name": "维生素",
+      "score": 51.3865,
+      "limit_count": 4,
+      "gain_pct": 2.87,
+      "rela_pct": 1.42,
+      "turnover_z": 3.94,
+      "signals": [
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 2
+    },
+    {
+      "name": "合成生物",
+      "score": 50.9841,
+      "limit_count": 3,
+      "gain_pct": 2.89,
+      "rela_pct": 1.43,
+      "turnover_z": 4.38,
+      "signals": [
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 2
+    },
+    {
+      "name": "东数西算",
+      "score": 50.6432,
+      "limit_count": 11,
+      "gain_pct": 2.18,
+      "rela_pct": 0.72,
+      "turnover_z": 5.97,
+      "signals": [
+        "攻守"
+      ],
+      "signal_count": 1
+    },
+    {
+      "name": "芯片",
+      "score": 47.8262,
+      "limit_count": 10,
+      "gain_pct": 2.33,
+      "rela_pct": 0.87,
+      "turnover_z": 4.03,
+      "signals": [
+        "攻守"
+      ],
+      "signal_count": 1
+    },
+    {
+      "name": "复合铜箔",
+      "score": 46.7827,
+      "limit_count": 2,
+      "gain_pct": 2.65,
+      "rela_pct": 1.2,
+      "turnover_z": 7.6,
+      "signals": [
+        "量异",
+        "攻守"
+      ],
+      "signal_count": 2
+    },
+    {
+      "name": "PCB概念",
+      "score": 46.0784,
+      "limit_count": 2,
+      "gain_pct": 3.12,
+      "rela_pct": 1.66,
+      "turnover_z": 5.37,
+      "signals": [
+        "趋势",
+        "形态"
+      ],
+      "signal_count": 2
+    },
+    {
+      "name": "新能源车",
+      "score": 45.4701,
+      "limit_count": 11,
+      "gain_pct": 1.85,
+      "rela_pct": 0.4,
+      "turnover_z": 4.35,
+      "signals": [
+        "攻守"
+      ],
+      "signal_count": 1
+    },
+    {
+      "name": "算力租赁",
+      "score": 43.5884,
+      "limit_count": 5,
+      "gain_pct": 2.44,
+      "rela_pct": 0.98,
+      "turnover_z": 4.82,
+      "signals": [
+        "趋势"
+      ],
+      "signal_count": 1
+    },
+    {
+      "name": "云游戏",
+      "score": 42.9578,
+      "limit_count": 2,
+      "gain_pct": 2.48,
+      "rela_pct": 1.03,
+      "turnover_z": 4.49,
+      "signals": [
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 2
+    }
+  ]
+}

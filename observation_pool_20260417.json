@@ -1,0 +1,754 @@
+{
+  "date": "20260417",
+  "generated_at": "2026-04-19 23:19:01",
+  "sentiment": {
+    "up_count": 2020,
+    "down_count": 2890,
+    "flat_count": 108,
+    "zt_count": 71,
+    "zb_count": 20,
+    "zb_rate": 0.2198,
+    "sentiment": "混沌",
+    "position": "5成"
+  },
+  "main_sectors": [
+    {
+      "name": "电池",
+      "limit_up_count": 3,
+      "max_boards": 7,
+      "multi_board_count": 1,
+      "earliest_seal": "093330",
+      "volume_billion": 49.2106,
+      "score_6d": 73.4835,
+      "continuity_rating": "中",
+      "continuity_reasons": [
+        "最高7连板，梯队极佳",
+        "大盘震荡，板块独立走强"
+      ],
+      "zb_count": 0,
+      "avg_gain_pct": 9.9867,
+      "stocks": [
+        {
+          "code": "002580",
+          "name": "圣阳股份",
+          "boards": 7,
+          "seal_time": "093330",
+          "explode_count": 14,
+          "volume_billion": 24.9692
+        },
+        {
+          "code": "603031",
+          "name": "安孚科技",
+          "boards": 1,
+          "seal_time": "103305",
+          "explode_count": 0,
+          "volume_billion": 8.8939
+        },
+        {
+          "code": "600152",
+          "name": "维科技术",
+          "boards": 1,
+          "seal_time": "130633",
+          "explode_count": 0,
+          "volume_billion": 15.3475
+        }
+      ]
+    },
+    {
+      "name": "航空装备",
+      "limit_up_count": 1,
+      "max_boards": 5,
+      "multi_board_count": 1,
+      "earliest_seal": "093651",
+      "volume_billion": 20.0831,
+      "score_6d": 57.0759,
+      "continuity_rating": "中",
+      "continuity_reasons": [
+        "最高5连板，梯队极佳",
+        "大盘震荡，板块独立走强"
+      ],
+      "zb_count": 0,
+      "avg_gain_pct": 10.01,
+      "stocks": [
+        {
+          "code": "002297",
+          "name": "博云新材",
+          "boards": 5,
+          "seal_time": "093651",
+          "explode_count": 1,
+          "volume_billion": 20.0831
+        }
+      ]
+    },
+    {
+      "name": "房地产开",
+      "limit_up_count": 2,
+      "max_boards": 3,
+      "multi_board_count": 1,
+      "earliest_seal": "093226",
+      "volume_billion": 8.7927,
+      "score_6d": 52.6044,
+      "continuity_rating": "中",
+      "continuity_reasons": [
+        "最高3连板，梯队极佳",
+        "大盘震荡，板块独立走强"
+      ],
+      "zb_count": 2,
+      "avg_gain_pct": 10.075,
+      "stocks": [
+        {
+          "code": "600683",
+          "name": "京投发展",
+          "boards": 3,
+          "seal_time": "093226",
+          "explode_count": 2,
+          "volume_billion": 3.2583
+        },
+        {
+          "code": "600208",
+          "name": "衢州发展",
+          "boards": 1,
+          "seal_time": "100638",
+          "explode_count": 1,
+          "volume_billion": 5.5345
+        }
+      ]
+    },
+    {
+      "name": "化学纤维",
+      "limit_up_count": 2,
+      "max_boards": 2,
+      "multi_board_count": 1,
+      "earliest_seal": "093542",
+      "volume_billion": 14.7622,
+      "score_6d": 51.601,
+      "continuity_rating": "低",
+      "continuity_reasons": [
+        "最高2连板，梯队良好",
+        "大盘震荡，板块独立走强"
+      ],
+      "zb_count": 0,
+      "avg_gain_pct": 15.01,
+      "stocks": [
+        {
+          "code": "300905",
+          "name": "宝丽迪",
+          "boards": 2,
+          "seal_time": "093542",
+          "explode_count": 0,
+          "volume_billion": 8.8647
+        },
+        {
+          "code": "000936",
+          "name": "华西股份",
+          "boards": 1,
+          "seal_time": "111812",
+          "explode_count": 0,
+          "volume_billion": 5.8976
+        }
+      ]
+    },
+    {
+      "name": "消费电子",
+      "limit_up_count": 3,
+      "max_boards": 2,
+      "multi_board_count": 1,
+      "earliest_seal": "103346",
+      "volume_billion": 57.577,
+      "score_6d": 49.6431,
+      "continuity_rating": "中",
+      "continuity_reasons": [
+        "最高2连板，梯队良好",
+        "大盘震荡，板块独立走强",
+        "板块总成交57.6亿，资金参与度高"
+      ],
+      "zb_count": 0,
+      "avg_gain_pct": 10.0033,
+      "stocks": [
+        {
+          "code": "603052",
+          "name": "可川科技",
+          "boards": 2,
+          "seal_time": "103346",
+          "explode_count": 0,
+          "volume_billion": 9.1164
+        },
+        {
+          "code": "603629",
+          "name": "利通电子",
+          "boards": 1,
+          "seal_time": "104034",
+          "explode_count": 1,
+          "volume_billion": 37.4698
+        },
+        {
+          "code": "002866",
+          "name": "传艺科技",
+          "boards": 1,
+          "seal_time": "143448",
+          "explode_count": 0,
+          "volume_billion": 10.9908
+        }
+      ]
+    }
+  ],
+  "observation_pool": {
+    "leaders": [
+      {
+        "code": "002580",
+        "name": "圣阳股份",
+        "sector": "电池",
+        "boards": 7,
+        "seal_time": "093330",
+        "volume_billion": 24.9692,
+        "explode_count": 14,
+        "role": "龙头"
+      },
+      {
+        "code": "603031",
+        "name": "安孚科技",
+        "sector": "电池",
+        "boards": 1,
+        "seal_time": "103305",
+        "volume_billion": 8.8939,
+        "explode_count": 0,
+        "role": "龙头"
+      },
+      {
+        "code": "002297",
+        "name": "博云新材",
+        "sector": "航空装备",
+        "boards": 5,
+        "seal_time": "093651",
+        "volume_billion": 20.0831,
+        "explode_count": 1,
+        "role": "龙头"
+      }
+    ],
+    "army": [
+      {
+        "code": "002580",
+        "name": "圣阳股份",
+        "sector": "电池",
+        "boards": 7,
+        "seal_time": "093330",
+        "volume_billion": 24.9692,
+        "explode_count": 14,
+        "role": "中军"
+      },
+      {
+        "code": "600152",
+        "name": "维科技术",
+        "sector": "电池",
+        "boards": 1,
+        "seal_time": "130633",
+        "volume_billion": 15.3475,
+        "explode_count": 0,
+        "role": "中军"
+      },
+      {
+        "code": "603031",
+        "name": "安孚科技",
+        "sector": "电池",
+        "boards": 1,
+        "seal_time": "103305",
+        "volume_billion": 8.8939,
+        "explode_count": 0,
+        "role": "中军"
+      },
+      {
+        "code": "002297",
+        "name": "博云新材",
+        "sector": "航空装备",
+        "boards": 5,
+        "seal_time": "093651",
+        "volume_billion": 20.0831,
+        "explode_count": 1,
+        "role": "中军"
+      }
+    ],
+    "quant_top15": [
+      {
+        "code": "002297",
+        "name": "博云新材",
+        "sector": "航空装备",
+        "score": 61.8547,
+        "gain_pct": 10.01,
+        "vol_ratio": 3.11,
+        "turnover_pct": 20.19,
+        "lead_net_pct": 0.0,
+        "boards": 0
+      },
+      {
+        "code": "300083",
+        "name": "创世纪",
+        "sector": "--",
+        "score": 54.6221,
+        "gain_pct": 14.27,
+        "vol_ratio": 11.6,
+        "turnover_pct": 14.33,
+        "lead_net_pct": 0.0,
+        "boards": 0
+      },
+      {
+        "code": "301090",
+        "name": "华润材料",
+        "sector": "--",
+        "score": 51.7332,
+        "gain_pct": 16.26,
+        "vol_ratio": 9.39,
+        "turnover_pct": 5.05,
+        "lead_net_pct": 0.0,
+        "boards": 0
+      },
+      {
+        "code": "301513",
+        "name": "N尚水",
+        "sector": "--",
+        "score": 50.9032,
+        "gain_pct": 286.7,
+        "vol_ratio": 0.0,
+        "turnover_pct": 76.6,
+        "lead_net_pct": 0.0,
+        "boards": 0
+      },
+      {
+        "code": "688560",
+        "name": "明冠新材",
+        "sector": "光伏设备",
+        "score": 49.7788,
+        "gain_pct": 19.97,
+        "vol_ratio": 7.97,
+        "turnover_pct": 14.75,
+        "lead_net_pct": 0.0,
+        "boards": 0
+      },
+      {
+        "code": "002990",
+        "name": "盛视科技",
+        "sector": "计算机设",
+        "score": 49.6998,
+        "gain_pct": 10.0,
+        "vol_ratio": 0.85,
+        "turnover_pct": 13.27,
+        "lead_net_pct": 0.0,
+        "boards": 0
+      },
+      {
+        "code": "002580",
+        "name": "圣阳股份",
+        "sector": "电池",
+        "score": 47.0023,
+        "gain_pct": 10.0,
+        "vol_ratio": 0.64,
+        "turnover_pct": 18.18,
+        "lead_net_pct": 0.0,
+        "boards": 0
+      },
+      {
+        "code": "603315",
+        "name": "福鞍股份",
+        "sector": "环境治理",
+        "score": 43.6161,
+        "gain_pct": 9.98,
+        "vol_ratio": 2.96,
+        "turnover_pct": 20.96,
+        "lead_net_pct": 0.0,
+        "boards": 0
+      }
+    ]
+  },
+  "all_board_stocks": [
+    {
+      "code": "002580",
+      "name": "圣阳股份",
+      "boards": 7,
+      "seal_time": "093330",
+      "explode_count": 14,
+      "volume_billion": 24.9692,
+      "sector": "电池"
+    },
+    {
+      "code": "002297",
+      "name": "博云新材",
+      "boards": 5,
+      "seal_time": "093651",
+      "explode_count": 1,
+      "volume_billion": 20.0831,
+      "sector": "航空装备"
+    },
+    {
+      "code": "002990",
+      "name": "盛视科技",
+      "boards": 4,
+      "seal_time": "093712",
+      "explode_count": 6,
+      "volume_billion": 9.0529,
+      "sector": "计算机设"
+    },
+    {
+      "code": "605388",
+      "name": "均瑶健康",
+      "boards": 3,
+      "seal_time": "093112",
+      "explode_count": 1,
+      "volume_billion": 4.0892,
+      "sector": "饮料乳品"
+    },
+    {
+      "code": "600683",
+      "name": "京投发展",
+      "boards": 3,
+      "seal_time": "093226",
+      "explode_count": 2,
+      "volume_billion": 3.2583,
+      "sector": "房地产开"
+    },
+    {
+      "code": "688227",
+      "name": "品高股份",
+      "boards": 2,
+      "seal_time": "093013",
+      "explode_count": 1,
+      "volume_billion": 4.9466,
+      "sector": "IT服务Ⅱ"
+    },
+    {
+      "code": "600156",
+      "name": "华升股份",
+      "boards": 2,
+      "seal_time": "093040",
+      "explode_count": 2,
+      "volume_billion": 3.7762,
+      "sector": "纺织制造"
+    },
+    {
+      "code": "600961",
+      "name": "株冶集团",
+      "boards": 2,
+      "seal_time": "092500",
+      "explode_count": 0,
+      "volume_billion": 1.0304,
+      "sector": "工业金属"
+    },
+    {
+      "code": "300905",
+      "name": "宝丽迪",
+      "boards": 2,
+      "seal_time": "093542",
+      "explode_count": 0,
+      "volume_billion": 8.8647,
+      "sector": "化学纤维"
+    },
+    {
+      "code": "002802",
+      "name": "洪汇新材",
+      "boards": 2,
+      "seal_time": "094112",
+      "explode_count": 0,
+      "volume_billion": 3.0165,
+      "sector": "化学制品"
+    },
+    {
+      "code": "603315",
+      "name": "福鞍股份",
+      "boards": 2,
+      "seal_time": "094812",
+      "explode_count": 10,
+      "volume_billion": 12.2522,
+      "sector": "环境治理"
+    },
+    {
+      "code": "002940",
+      "name": "昂利康",
+      "boards": 2,
+      "seal_time": "101709",
+      "explode_count": 1,
+      "volume_billion": 15.0354,
+      "sector": "化学制药"
+    },
+    {
+      "code": "603052",
+      "name": "可川科技",
+      "boards": 2,
+      "seal_time": "103346",
+      "explode_count": 0,
+      "volume_billion": 9.1164,
+      "sector": "消费电子"
+    }
+  ],
+  "concept_top20": [
+    {
+      "name": "CPO概念",
+      "score": 80.0065,
+      "limit_count": 14,
+      "gain_pct": 3.74,
+      "rela_pct": 3.84,
+      "turnover_z": 9.11,
+      "signals": [
+        "量异",
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 3
+    },
+    {
+      "name": "玻璃基板",
+      "score": 68.7468,
+      "limit_count": 2,
+      "gain_pct": 3.88,
+      "rela_pct": 3.98,
+      "turnover_z": 8.18,
+      "signals": [
+        "旗舰",
+        "量异",
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 4
+    },
+    {
+      "name": "先进封装",
+      "score": 68.6472,
+      "limit_count": 11,
+      "gain_pct": 2.69,
+      "rela_pct": 2.79,
+      "turnover_z": 7.37,
+      "signals": [
+        "量异",
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 3
+    },
+    {
+      "name": "PCB概念",
+      "score": 66.9154,
+      "limit_count": 11,
+      "gain_pct": 2.74,
+      "rela_pct": 2.85,
+      "turnover_z": 8.03,
+      "signals": [
+        "量异",
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 3
+    },
+    {
+      "name": "芯片",
+      "score": 65.5687,
+      "limit_count": 29,
+      "gain_pct": 1.73,
+      "rela_pct": 1.83,
+      "turnover_z": 4.94,
+      "signals": [
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 2
+    },
+    {
+      "name": "复合铜箔",
+      "score": 64.9647,
+      "limit_count": 2,
+      "gain_pct": 3.22,
+      "rela_pct": 3.32,
+      "turnover_z": 8.67,
+      "signals": [
+        "量异",
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 3
+    },
+    {
+      "name": "消费电子概念",
+      "score": 60.1177,
+      "limit_count": 19,
+      "gain_pct": 1.65,
+      "rela_pct": 1.75,
+      "turnover_z": 5.82,
+      "signals": [
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 2
+    },
+    {
+      "name": "光刻机",
+      "score": 58.4092,
+      "limit_count": 5,
+      "gain_pct": 2.38,
+      "rela_pct": 2.48,
+      "turnover_z": 5.59,
+      "signals": [
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 2
+    },
+    {
+      "name": "光通信",
+      "score": 57.1766,
+      "limit_count": 7,
+      "gain_pct": 2.49,
+      "rela_pct": 2.59,
+      "turnover_z": 6.72,
+      "signals": [
+        "量异",
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 3
+    },
+    {
+      "name": "第三代半导体",
+      "score": 56.6488,
+      "limit_count": 8,
+      "gain_pct": 2.23,
+      "rela_pct": 2.33,
+      "turnover_z": 6.49,
+      "signals": [
+        "量异",
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 3
+    },
+    {
+      "name": "6G概念",
+      "score": 54.4388,
+      "limit_count": 6,
+      "gain_pct": 2.16,
+      "rela_pct": 2.27,
+      "turnover_z": 5.47,
+      "signals": [
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 2
+    },
+    {
+      "name": "固态电池",
+      "score": 54.1275,
+      "limit_count": 10,
+      "gain_pct": 1.75,
+      "rela_pct": 1.85,
+      "turnover_z": 5.9,
+      "signals": [
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 2
+    },
+    {
+      "name": "5G概念",
+      "score": 53.9536,
+      "limit_count": 15,
+      "gain_pct": 1.47,
+      "rela_pct": 1.57,
+      "turnover_z": 6.4,
+      "signals": [
+        "量异",
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 3
+    },
+    {
+      "name": "OLED概念",
+      "score": 53.1889,
+      "limit_count": 10,
+      "gain_pct": 1.99,
+      "rela_pct": 2.09,
+      "turnover_z": 5.11,
+      "signals": [
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 2
+    },
+    {
+      "name": "次新股",
+      "score": 50.8069,
+      "limit_count": 3,
+      "gain_pct": 1.61,
+      "rela_pct": 1.71,
+      "turnover_z": 7.91,
+      "signals": [
+        "量异",
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 3
+    },
+    {
+      "name": "新能源车",
+      "score": 50.8,
+      "limit_count": 19,
+      "gain_pct": 0.97,
+      "rela_pct": 1.08,
+      "turnover_z": 5.16,
+      "signals": [
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 2
+    },
+    {
+      "name": "液冷服务器",
+      "score": 50.6142,
+      "limit_count": 12,
+      "gain_pct": 1.36,
+      "rela_pct": 1.47,
+      "turnover_z": 6.06,
+      "signals": [
+        "量异",
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 3
+    },
+    {
+      "name": "商业航天",
+      "score": 49.3176,
+      "limit_count": 12,
+      "gain_pct": 1.32,
+      "rela_pct": 1.42,
+      "turnover_z": 5.01,
+      "signals": [
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 2
+    },
+    {
+      "name": "华为海思",
+      "score": 48.4869,
+      "limit_count": 4,
+      "gain_pct": 1.74,
+      "rela_pct": 1.84,
+      "turnover_z": 6.53,
+      "signals": [
+        "量异",
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 3
+    },
+    {
+      "name": "汽车电子",
+      "score": 48.2016,
+      "limit_count": 11,
+      "gain_pct": 1.3,
+      "rela_pct": 1.4,
+      "turnover_z": 5.54,
+      "signals": [
+        "趋势",
+        "攻守"
+      ],
+      "signal_count": 2
+    }
+  ]
+}
