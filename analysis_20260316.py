@@ -13,11 +13,12 @@ import warnings
 import sys
 import io
 import json
+import os
 
 warnings.filterwarnings('ignore')
 # sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
-TARGET_DATE = "20260512"  # 分析目标日期，格式 YYYYMMDD
+TARGET_DATE = "20260513"  # 分析目标日期，格式 YYYYMMDD
 DATA_FILE = f"全部Ａ股{TARGET_DATE}.xls"
 # 同花顺导出的板块指数文件（两种命名都支持，优先新格式）
 # 新格式：板块指数{DATE}.xls   旧格式：板块指数-概念{DATE}.xls
@@ -393,7 +394,172 @@ def identify_super_themes(concept_scored_df):
 
 
 # ══════════════════════════════════════════════════
-# 3. 市场情绪分析
+# 2.5 历史数据加载与周期判定
+# ══════════════════════════════════════════════════
+
+def load_yesterday_snapshot(date):
+    """
+    加载前一日观察池快照，用于周期对比
+    返回：dict 或 None
+    """
+    from datetime import timedelta
+    # 简单处理：尝试读取前一天日期的 JSON
+    dt = datetime.strptime(date, "%Y%m%d")
+    prev_dt = dt - timedelta(days=1)
+    # 跳过周末（简单判断：如果减1天是周六或周日，继续减）
+    while prev_dt.weekday() >= 5:
+        prev_dt -= timedelta(days=1)
+    
+    prev_date_str = prev_dt.strftime("%Y%m%d")
+    prev_json = f"observation_pool_{prev_date_str}.json"
+    
+    if os.path.exists(prev_json):
+        try:
+            with open(prev_json, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except:
+            return None
+    return None
+
+def determine_market_cycle(today_sentiment, today_vol_struct, zt_pool, yesterday_snapshot, local_df):
+    """
+    量化判定市场周期状态（情绪定性质，量能做修正）
+    """
+    up_count = today_sentiment['up_count']
+    zt_count = today_sentiment['zt_count']
+    shrink_pct = today_vol_struct['shrink_pct']
+    max_board = zt_pool['连板数'].max() if not zt_pool.empty else 0
+    zb_rate = today_sentiment.get('zb_rate', 0)
+    
+    # 统计跌停家数（从本地数据筛选跌幅 < -9.5%）
+    limit_down_count = len(local_df[local_df['涨幅%'] < -9.5]) if '涨幅%' in local_df.columns else 0
+    
+    # 获取昨日数据用于对比
+    y_up = yesterday_snapshot['sentiment']['up_count'] if yesterday_snapshot else 2500
+    y_max_board = 0
+    if yesterday_snapshot and yesterday_snapshot.get('all_board_stocks'):
+        y_max_board = max([s['boards'] for s in yesterday_snapshot['all_board_stocks']], default=0)
+    
+    base_state = "混沌日"
+    reasons = []
+    
+    # ── 第一步：基于情绪结构判定基础周期（权重60%）──────────────
+    
+    # 1. 退潮日判定（亏钱效应扩散）
+    if up_count < 1500 or limit_down_count > 20 or (y_max_board > 3 and max_board <= y_max_board - 2):
+        base_state = "退潮日"
+        reasons.append(f"上涨仅{up_count}家 或 跌停{limit_down_count}家 或 连板高度骤降")
+    
+    # 2. 高潮日判定（情绪顶峰）
+    elif zt_count > 100 and max_board >= 6 and zb_rate < 0.20:
+        base_state = "高潮日"
+        reasons.append(f"涨停{zt_count}只，最高{int(max_board)}板，炸板率{zb_rate:.1%}")
+    
+    # 3. 发酵日判定（主线确认）
+    elif zt_count > 70 and max_board >= 3 and up_count > 2500:
+        base_state = "发酵日"
+        reasons.append(f"主线梯队完整，涨停{zt_count}只，上涨{up_count}家")
+    
+    # 4. 启动日判定（冰点反弹）
+    elif y_up < 1000 and up_count > 2000 and zt_count > 50:
+        base_state = "启动日"
+        reasons.append(f"冰点反弹（昨日{y_up}家→今日{up_count}家）")
+    
+    # 5. 分歧日判定（情绪分化）
+    elif zb_rate > 0.25 or (max_board < 3 and zt_count < 50):
+        base_state = "分歧日"
+        reasons.append(f"炸板率{zb_rate:.1%}>25% 或 连板高度不足")
+    
+    # ── 第二步：用量能结构修正（权重25%）───────────────────────
+    quality_tag = ""
+    if base_state == "高潮日":
+        if shrink_pct < 20:
+            quality_tag = "（放量高潮）"
+            reasons.append(f"缩量占比{shrink_pct:.1f}%<20%，资金全面参与，明日可能延续")
+        elif shrink_pct < 50:
+            quality_tag = "（缩量高潮）"
+            reasons.append(f"缩量占比{shrink_pct:.1f}%（20%-50%），跟风盘多，明日分歧概率大")
+        else:
+            quality_tag = "（虚涨高潮）"
+            reasons.append(f"缩量占比{shrink_pct:.1f}%>50%，严重缩量，明日强分歧风险")
+    
+    final_state = base_state + quality_tag
+    
+    # ── 第三步：明日预期推演 ───────────────────────────────────
+    tomorrow_probs = {}
+    if "高潮日" in final_state:
+        if "缩量" in final_state:
+            tomorrow_probs = {
+                "强分歧": "45%（获利盘兑现，跟风股回落）",
+                "弱分歧转修复": "35%（龙头换手回封，中军承接）",
+                "直接退潮": "20%（核心股补跌）"
+            }
+        else:
+            tomorrow_probs = {
+                "继续高潮": "40%（增量资金入场）",
+                "弱分歧": "40%（正常震荡消化）",
+                "强分歧": "20%（突发利空）"
+            }
+    elif base_state == "分歧日":
+        tomorrow_probs = {
+            "分歧延续": "45%（情绪进一步降温）",
+            "分歧转修复": "35%（资金回流主线）",
+            "分歧转退潮": "20%（亏钱效应扩散）"
+        }
+    
+    return {
+        "state": final_state,
+        "base_state": base_state,
+        "reasons": reasons,
+        "tomorrow_probs": tomorrow_probs,
+        "position_base": get_position_by_cycle(base_state)
+    }
+
+def get_position_by_cycle(state):
+    """根据周期状态给出基础仓位建议"""
+    map_pos = {
+        "启动日": "3-5成",
+        "发酵日": "5-7成",
+        "高潮日": "7成+",
+        "分歧日": "3-5成",
+        "退潮日": "0-3成（空仓）"
+    }
+    return map_pos.get(state, "3-5成")
+
+# ══════════════════════════════════════════════════
+# 3. 量能结构分析
+# ══════════════════════════════════════════════════
+
+def analyze_volume_structure(df):
+    """
+    分析市场量能结构——识别是否为"缩量行情"
+    盲区识别：缩量个股占比高说明是"存量博弈"，一旦龙头分歧跟风盘即刻崩塌
+    """
+    # 计算量比分布
+    vol_ratio = df['量比'].dropna()
+    total_count = len(vol_ratio)
+    
+    shrink_count = (vol_ratio < 0.8).sum()  # 严重缩量（量比<0.8）
+    normal_count = ((vol_ratio >= 0.8) & (vol_ratio < 1.5)).sum()  # 正常（0.8-1.5）
+    expand_moderate = ((vol_ratio >= 1.5) & (vol_ratio < 3.0)).sum()  # 温和放量（1.5-3）
+    expand_strong = (vol_ratio >= 3.0).sum()  # 强势放量（≥3）
+    
+    shrink_pct = shrink_count / total_count * 100 if total_count > 0 else 0
+    expand_strong_pct = expand_strong / total_count * 100 if total_count > 0 else 0
+    
+    return {
+        "shrink_count": shrink_count,
+        "shrink_pct": shrink_pct,
+        "normal_count": normal_count,
+        "expand_moderate": expand_moderate,
+        "expand_strong": expand_strong,
+        "expand_strong_pct": expand_strong_pct,
+        "total_count": total_count,
+    }
+
+
+# ══════════════════════════════════════════════════
+# 3.1 市场情绪分析
 # ══════════════════════════════════════════════════
 
 def analyze_market_sentiment(df, zt_pool, zb_pool):
@@ -441,6 +607,9 @@ def analyze_market_sentiment(df, zt_pool, zb_pool):
     # 仓位建议
     position_map = {"强": "7成", "混沌": "5成", "弱": "1成（建议空仓）"}
     position = position_map[sentiment]
+    
+    # 量能结构分析（新增盲区识别）
+    vol_struct = analyze_volume_structure(df)
 
     return {
         "total": total,
@@ -454,6 +623,12 @@ def analyze_market_sentiment(df, zt_pool, zb_pool):
         "sentiment": sentiment,
         "sentiment_note": sentiment_note,
         "position": position,
+        # 量能结构数据（新增盲区识别）
+        "shrink_count": vol_struct["shrink_count"],
+        "shrink_pct": vol_struct["shrink_pct"],
+        "expand_strong": vol_struct["expand_strong"],
+        "expand_strong_pct": vol_struct["expand_strong_pct"],
+        "vol_struct_note": f"缩量家数 {vol_struct['shrink_count']}({vol_struct['shrink_pct']:.1f}%)，放量强势仅{vol_struct['expand_strong']}家(占{vol_struct['expand_strong_pct']:.1f}%)",
     }
 
 
@@ -631,6 +806,80 @@ def evaluate_sector_continuity(sector_name, sector_df, market_up_count):
 
 
 # ══════════════════════════════════════════════════
+# 5.5 分歧日判断与应对模块（新增盲区识别）
+# ══════════════════════════════════════════════════
+
+def analyze_divergence_day(zt_pool, zb_pool, sentiment_data, sector_stats, local_df):
+    """
+    判断是否为分歧日，输出分歧程度与对应策略
+    
+    分歧日特征：
+      - 涨停数 > 100 但 炸板率 > 20%（情绪好但焦虑）
+      - 缩量家数占比 > 60%（大量个股无量跟风）
+      - 主力净流入为0或负数（大资金观望）
+    
+    分歧程度分类：
+      - 弱分歧（良性）：龙头封死+中军走强 → 40%概率 → 仓位5-7成
+      - 中等分歧：龙头开板换手 → 35%概率 → 仓位3-5成
+      - 强分歧（退潮）：龙头跌停 → 25%概率 → 仓位0-3成（清仓）
+    """
+    score = 0
+    signs = []
+    
+    s = sentiment_data
+    
+    # 信号1：炸板率过高
+    if s.get('zb_rate', 0) > 0.25 and s.get('zt_count', 0) > 80:
+        score += 1
+        signs.append(f"炸板率{s['zb_rate']:.1%}>25%，情绪不稳定")
+    
+    # 信号2：缩量家数占比高
+    if s.get('shrink_pct', 0) > 60:
+        score += 1
+        signs.append(f"缩量家数{s['shrink_count']}({s['shrink_pct']:.1f}%)>60%，跟风盘无真实买力")
+    
+    # 信号3：放量强势个股稀少
+    if s.get('expand_strong_pct', 0) < 10:
+        score += 1
+        signs.append(f"放量强势仅{s['expand_strong']}家(<10%)，资金参与度不深")
+    
+    # 信号4：主力资金数据异常（主力净流入股数过少）
+    if not zt_pool.empty:
+        main_inflow = len(zt_pool[zt_pool['主力净比%'] > 0]) if '主力净比%' in zt_pool.columns else 0
+        if main_inflow == 0 or main_inflow < len(zt_pool) * 0.3:
+            score += 1
+            signs.append(f"主力净流入不足(涨停股{len(zt_pool)})，主力参与度低")
+    
+    # 判断分歧程度
+    if score >= 3:
+        divergence_level = "强"
+        advice = "空仓观望或仅做首板，仓位0-3成"
+    elif score >= 2:
+        divergence_level = "中"
+        advice = "仅做中军低吸，不做连板博弈，仓位3-5成"
+    else:
+        divergence_level = "弱"
+        advice = "聚焦龙头/中军，分歧低吸可参与，仓位5-7成"
+    
+    # 核心观察指标（盘中实时监测）
+    key_metrics = {
+        "龙头竞价封单": "首次封板最早的连板股竞价时的买一挂单量，>5亿为强势",
+        "龙头开盘高开": "首次封板最早的连板股今日开盘相对昨日收盘的高开幅度，<5%为分歧信号",
+        "板块竞价涨停": "主线板块内是否有3只以上在竞价阶段即涨停开盘，否则分歧加剧",
+        "中军量比": "中军（成交额前3）平均量比是否持续>3，<1为崩塌前兆",
+        "前日炸板股": "前日炸板股今日是否低开>3%，是则承接力不足分歧加重",
+    }
+    
+    return {
+        "divergence_level": divergence_level,
+        "score": score,
+        "signs": signs,
+        "advice": advice,
+        "key_metrics": key_metrics,
+    }
+
+
+# ══════════════════════════════════════════════════
 # 6. 量化机会评分体系（次日观察池）
 # ══════════════════════════════════════════════════
 
@@ -638,11 +887,12 @@ def build_opportunity_pool(local_df, zt_pool, strong_pool):
     """
     量化机会评分体系
     评分维度（0-100分）：
-      1. 资金面得分 (30%)：主力净比%
-      2. 动量得分 (25%)：量比
+      1. 资金面得分 (28%)：主力净比%
+      2. 动量得分 (23%)：量比
       3. 活跃度得分 (20%)：换手%
       4. 开盘质量得分 (15%)：开盘抢筹%
       5. 筹码面得分 (10%)：委比%
+      6. 市场地位得分 (12%)：连板排名+封板时间+龙头标签 [新增]
     筛选条件：涨幅 > 5%，且不在炸板股中
     """
     # 合并涨停池连板信息
@@ -674,17 +924,64 @@ def build_opportunity_pool(local_df, zt_pool, strong_pool):
     s_activity   = norm(fill_zero('换手%'))         # 活跃
     s_open_qual  = norm(fill_zero('开盘抢筹%'))     # 开盘质量
     s_order_book = norm(fill_zero('委比%'))          # 委买强度
+    
+    # ─ 新增维度：市场地位加权（连板排名+封板时间+龙头标签）─────────────────
+    # 计算连板数排名（最高板数获得高分）
+    s_lianban_rank = norm(candidates['连板数_ak'])
+    
+    # 计算封板时间排名（最早封板获得高分）
+    if '首次封板时间' in candidates.columns:
+        candidates['首次封板时间_int'] = pd.to_numeric(
+            candidates['首次封板时间'].astype(str).str.replace(':', '').str.replace('--', '999999'),
+            errors='coerce'
+        ).fillna(999999)
+        # 转换为"越早越好"的分数（150000-时间）
+        s_seal_time = norm(150000 - candidates['首次封板时间_int'])
+    else:
+        s_seal_time = pd.Series(50.0, index=candidates.index)
+    
+    # 是否是龙头标签（在其所属行业内连板数是否排名前3）
+    s_is_leader = pd.Series(0.0, index=candidates.index)
+    if not zt_pool.empty and '所属行业' in zt_pool.columns:
+        for sector in candidates['所属行业_ak'].unique():
+            if pd.isna(sector) or sector == '--':
+                continue
+            sector_lianban = zt_pool[zt_pool['所属行业'] == sector]['连板数'].nlargest(3).values
+            if len(sector_lianban) > 0:
+                mask = (candidates['所属行业_ak'] == sector) & (candidates['连板数_ak'] >= sector_lianban.min())
+                s_is_leader[mask] = 30.0  # 龙头标签加30分
+    
+    s_market_position = (s_lianban_rank * 0.45 + s_seal_time * 0.35 + s_is_leader * 0.20).clip(0, 100)
 
     candidates['综合得分'] = (
-        s_capital    * 0.30 +
-        s_momentum   * 0.25 +
-        s_activity   * 0.20 +
-        s_open_qual  * 0.15 +
-        s_order_book * 0.10
+        s_capital         * 0.28 +
+        s_momentum        * 0.23 +
+        s_activity        * 0.20 +
+        s_open_qual       * 0.15 +
+        s_order_book      * 0.10 +
+        s_market_position * 0.12  # 新增市场地位权重
     )
 
-    # 连板加分
-    candidates['综合得分'] += candidates['连板数_ak'] * 3
+    # 连板加分（调整为+8分，确保龙头进入高分段）
+    candidates['综合得分'] += candidates['连板数_ak'] * 8
+
+    # 市场地位加权（改进点2：解决龙头被低估问题）
+    # 增加“市场地位分”维度（权重约15%），包含连板排名、封板时间、板块内地位
+    def get_market_position_score(row):
+        score = 0
+        # 1. 连板高度加分：最高标直接加10分，每多1板加3分
+        lb = row['连板数_ak']
+        if lb >= 4: score += 10
+        score += (lb - 1) * 3 if lb > 1 else 0
+        
+        # 2. 封板时间加分：最早封板的个股加5分
+        if row.get('首次封板时间_int', 999999) <= 93500: score += 5
+        
+        # 3. 龙头标签加分：已在 s_is_leader 中体现，这里不再重复
+        return score
+
+    candidates['市场地位分'] = candidates.apply(get_market_position_score, axis=1)
+    candidates['综合得分'] += candidates['市场地位分']
 
     candidates = candidates.sort_values('综合得分', ascending=False)
 
@@ -752,7 +1049,7 @@ def format_amt(val):
 
 def generate_report(target_date, sentiment_data, sector_stats, zt_pool, zb_pool,
                     strong_pool, opportunity_df, obs_pool, local_df,
-                    concept_board_df=None, super_theme_df=None):
+                    concept_board_df=None, super_theme_df=None, divergence_data=None, cycle_data=None):
 
     date_str = f"{target_date[:4]}/{target_date[4:6]}/{target_date[6:]}"
     now_str = datetime.now().strftime("%Y-%m-%d %H:%M")
@@ -764,8 +1061,32 @@ def generate_report(target_date, sentiment_data, sector_stats, zt_pool, zb_pool,
     lines.append("")
     lines.append("---")
 
-    # ─── 一、市场情绪判断 ────────────────────────────────
-    lines.append("## 一、市场情绪判断")
+    # ─── 一、市场周期判定（新增核心模块）─────────────────────
+    if cycle_data:
+        lines.append("## 一、市场周期判定（量化锚点）")
+        lines.append("")
+        lines.append(f"### 📅 今日状态：**{cycle_data['state']}**")
+        lines.append("")
+        lines.append("**量化判定依据：**")
+        for reason in cycle_data['reasons']:
+            lines.append(f"- ✅ {reason}")
+        lines.append("")
+        
+        lines.append("**🔮 明日预期推演：**")
+        if cycle_data['tomorrow_probs']:
+            lines.append("| 可能情景 | 概率与触发条件 |")
+            lines.append("|---------|----------------|")
+            for scenario, prob_desc in cycle_data['tomorrow_probs'].items():
+                lines.append(f"| **{scenario}** | {prob_desc} |")
+        else:
+            lines.append("- 暂无明确推演数据")
+        lines.append("")
+        lines.append(f"**💰 基础仓位建议：{cycle_data['position_base']}**（由周期状态决定）")
+        lines.append("")
+        lines.append("---")
+
+    # ─── 二、市场情绪判断（周期的子属性）────────────────────
+    lines.append("## 二、市场情绪判断")
     lines.append("")
     lines.append("### 📊 数据统计")
     lines.append("")
@@ -796,10 +1117,58 @@ def generate_report(target_date, sentiment_data, sector_stats, zt_pool, zb_pool,
         lines.append(f"- ⚠️ {s['sentiment_note']}")
     lines.append(f"- 炸板率 {s['zb_rate']:.1%}（>30% 为偏负面信号）")
     lines.append("")
-    lines.append(f"**➡ 对应仓位上限：{s['position']}**")
+    
+    # 逻辑协调：情绪与分歧日的修正（改进点1）
+    if s['sentiment'] == '强' and divergence_data and divergence_data['divergence_level'] in ['中', '强']:
+        lines.append(f"- ⚠️ **逻辑协调：** 情绪虽为‘强’，但量能结构显示放量强势仅{s.get('expand_strong', 0)}家(<10%)，属于‘缩量强修复’。")
+        lines.append(f"  持续性存疑，分歧日判断修正情绪为‘{divergence_data['divergence_level']}分歧’，仓位以分歧日建议为准（{divergence_data['advice']}）。")
+    
+    lines.append(f"**➡ 对应仓位上限：{s['position']}**（受周期状态微调）")
     lines.append("")
 
-    # ─── 二、主线板块识别 ─────────────────────────────────
+    # 量能结构盲区识别（新增）
+    lines.append("### ⚠️ 量能结构分析（盲区识别）")
+    lines.append("")
+    lines.append(f"**量能分布：** {s.get('vol_struct_note', '--')}")
+    lines.append("")
+    lines.append("| 量比区间 | 家数 | 含义 |")
+    lines.append("|---------|------|------|")
+    lines.append(f"| <0.8(严重缩量) | {s.get('shrink_count', '--')} | 无量跟风，一旦主线分歧即刻崩塌 |")
+    lines.append(f"| 0.8-1.5(正常) | {s.get('normal_count', '--')} | 常规交易水平 |")
+    lines.append(f"| 1.5-3(温和放量) | {s.get('expand_moderate', '--')} | 资金温和参与 |")
+    lines.append(f"| ≥3(强势放量) | **{s.get('expand_strong', '--')}** | 真金白银参与，极少比例 |")
+    lines.append("")
+    lines.append("**核心判断：** ")
+    if s.get('shrink_pct', 0) > 60:
+        lines.append(f"缩量家数占比{s.get('shrink_pct', 0):.1f}%>60% → **'缩量强修复'行情** → 明日无法放量则跟风盘率先崩塌")
+    else:
+        lines.append(f"缩量占比{s.get('shrink_pct', 0):.1f}%≤60% → 量能参与相对均匀，持续性较好")
+    lines.append("")
+
+    # ─── 二-B、分歧日核心监测指标（原一-B内容）─────────────
+    if divergence_data is not None and cycle_data and cycle_data['state'] == '分歧日':
+        lines.append("---")
+        lines.append("## 二-B、分歧日盘中监测要点")
+        lines.append("")
+        lines.append(f"### 分歧程度评估：{divergence_data['divergence_level']}分歧（信号得分{divergence_data['score']}/4）")
+        lines.append("")
+        lines.append("**分歧信号汇总：**")
+        if divergence_data['signs']:
+            for sign in divergence_data['signs']:
+                lines.append(f"- ⚠️ {sign}")
+        else:
+            lines.append("- 无明显分歧信号，情况良好")
+        lines.append("")
+        
+        lines.append("### 🔍 明日盘中核心监测指标（开盘15分钟内确认）")
+        lines.append("")
+        lines.append("| 指标 | 盘中判断标准 | 分歧信号含义 |")
+        lines.append("|------|------------|---------|")
+        for metric_key, metric_val in divergence_data['key_metrics'].items():
+            lines.append(f"| {metric_key} | — | {metric_val} |")
+        lines.append("")
+
+    # ─── 三、主线板块识别 ─────────────────────────────────
     lines.append("---")
     lines.append("## 二、主线板块识别")
     lines.append("")
@@ -994,6 +1363,28 @@ def generate_report(target_date, sentiment_data, sector_stats, zt_pool, zb_pool,
             lines.append(f"- {r}")
         lines.append("")
 
+        # 概念联动分析（改进点4）
+        lines.append(f"### 🧩 {sector} 板块的概念驱动与轮动路径")
+        lines.append("")
+        if not concept_board_df.empty and not super_theme_df.empty:
+            # 寻找与该主线相关的超级主题
+            related_themes = []
+            for _, tr in super_theme_df.iterrows():
+                if any(kw in sector for kw in SUPER_THEMES.get(tr['超级主题'], [])) or \
+                   any(sector in keywords for keywords in SUPER_THEMES.values()):
+                    related_themes.append(tr)
+            
+            if related_themes:
+                for theme in related_themes[:2]:
+                    lines.append(f"- **关联主题：** {theme['超级主题']} (热度指数: {theme.get('主题热度指数', 0):.1f})")
+                    lines.append(f"  - 命中子概念：*{theme['命中子概念']}*")
+                lines.append(f"- **轮动推演：** 若 {sector} 分歧，资金可能流向 **{related_themes[0]['超级主题']}** 方向。")
+            else:
+                lines.append(f"- **产业逻辑：** {sector} 的上涨主要由行业基本面驱动，暂未发现明显的跨板块概念联动。")
+        else:
+            lines.append(f"- **产业逻辑：** {sector} 的上涨主要由行业基本面驱动。")
+        lines.append("")
+
     # ─── 四、连板梯队总览 ─────────────────────────────────
     lines.append("---")
     lines.append("## 四、连板梯队总览")
@@ -1094,13 +1485,28 @@ def generate_report(target_date, sentiment_data, sector_stats, zt_pool, zb_pool,
     if not zb_pool.empty:
         lines.append("*炸板股反映情绪不稳定，需关注后续变化：*")
         lines.append("")
-        lines.append("| 代码 | 名称 | 涨跌幅 | 炸板次数 | 首次封板时间 | 成交额 | 所属行业 |")
-        lines.append("|------|------|--------|---------|------------|-------|---------|")
+        lines.append("| 代码 | 名称 | 涨跌幅 | 炸板次数 | 首次封板时间 | 成交额 | 所属行业 | 次日策略信号 |")
+        lines.append("|------|------|--------|---------|------------|-------|---------|-------------|")
         for _, r in zb_pool.iterrows():
+            # 改进点3：增加“修复概率”评估标签
+            signal_tag = "🔴 高风险"
+            sector = r.get('所属行业', '')
+            amt = r.get('成交额', 0)
+            is_main_line = any(s in sector for s in top2) if top2 else False
+            
+            if amt > 50e8 and not is_main_line:
+                signal_tag = "🔴 非主线大额，回避"
+            elif is_main_line and amt < 30e8:
+                signal_tag = "🟢 主线错杀，可关注反包"
+            elif is_main_line:
+                signal_tag = "🟡 主线观察，看是否低开高走"
+            elif amt > 30e8:
+                signal_tag = "🔴 大额炸板，承接不足"
+            
             lines.append(
                 f"| {r['代码']} | {r['名称']} | {r['涨跌幅']:.2f}% | "
                 f"**{r['炸板次数']}次** | {r['首次封板时间']} | "
-                f"{format_amt(r['成交额'])} | {r['所属行业']} |"
+                f"{format_amt(r['成交额'])} | {r['所属行业']} | {signal_tag} |"
             )
     else:
         lines.append("*（炸板数据不可用）*")
@@ -1167,6 +1573,7 @@ def generate_report(target_date, sentiment_data, sector_stats, zt_pool, zb_pool,
     lines.append(f"- 单股止损线：买入价 × 93%（即 -7%）")
     lines.append(f"- 动态止盈：股价自当日高点回撤 7% 时，卖出")
     lines.append(f"- 板块退潮信号：主线核心股中有2只触及跌停，立刻清仓")
+    lines.append(f"- **分歧日特殊提示：** {divergence_data['advice'] if divergence_data else '无'}")
     lines.append("")
 
     # ─── 九、量化指标解读 ─────────────────────────────────
@@ -1482,20 +1889,34 @@ def main():
     print(f"  涨停池: {len(zt_pool)} 只 | 炸板池: {len(zb_pool)} 只 | 强势股池: {len(strong_pool)} 只")
 
     # 3. 市场情绪
-    print("[3/6] 分析市场情绪...")
+    print("[3/8] 分析市场情绪...")
     sentiment_data = analyze_market_sentiment(local_df, zt_pool, zb_pool)
-    print(f"  上涨: {sentiment_data['up_count']} | 下跌: {sentiment_data['down_count']} | 情绪: {sentiment_data['sentiment']}")
+    
+    # 3.5 历史数据与周期判定
+    print("[3.5/8] 加载昨日快照并判定市场周期...")
+    yesterday_snap = load_yesterday_snapshot(TARGET_DATE)
+    vol_struct = {
+        "shrink_count": sentiment_data['shrink_count'],
+        "shrink_pct": sentiment_data['shrink_pct'],
+        "expand_strong": sentiment_data['expand_strong']
+    }
+    cycle_data = determine_market_cycle(sentiment_data, vol_struct, zt_pool, yesterday_snap, local_df)
+    print(f"  今日周期: {cycle_data['state']} | 基础仓位: {cycle_data['position_base']}")
 
-    # 4. 板块分析
-    print("[4/7] 分析主线板块（6维度评分）...")
+    # 4. 分歧日判断（原逻辑保留，作为周期判定的补充）
+    print("[4/8] 细化分歧日特征监测...")
+    divergence_data = analyze_divergence_day(zt_pool, zb_pool, sentiment_data, None, local_df)
+
+    # 5. 板块分析
+    print("[5/8] 分析主线板块（6维度评分）...")
     sector_stats = analyze_main_sectors(zt_pool, zb_pool, local_df)
 
-    # 5. 量化机会评分
-    print("[5/7] 计算量化机会评分...")
+    # 6. 量化机会评分
+    print("[6/8] 计算量化机会评分...")
     opportunity_df = build_opportunity_pool(local_df, zt_pool, strong_pool)
 
-    # 6. 概念板块多维度分析（本地文件驱动，无需实时API，支持历史日期）
-    print("[6/7] 加载并分析概念板块数据（本地文件）...")
+    # 7. 概念板块多维度分析
+    print("[7/8] 加载并分析概念板块数据（本地文件）...")
     concept_raw = load_concept_board_local(CONCEPT_FILE)
     if not concept_raw.empty:
         concept_board_df = analyze_concept_boards_multidim(concept_raw, zt_pool)
@@ -1509,15 +1930,16 @@ def main():
         super_theme_df   = pd.DataFrame()
         print(f"  未找到概念文件 {CONCEPT_FILE}，概念分析跳过")
 
-    # 7. 构建观察池
-    print("[7/7] 构建核心观察池（调用 get_sector_leaders 增强排序）...")
+    # 8. 构建观察池
+    print("[8/8] 构建核心观察池（调用 get_sector_leaders 增强排序）...")
     obs_pool = build_observation_pool(zt_pool, sector_stats, opportunity_df, local_df)
 
     # 生成报告
     print("\n生成复盘报告...")
     report_text = generate_report(
         TARGET_DATE, sentiment_data, sector_stats, zt_pool, zb_pool,
-        strong_pool, opportunity_df, obs_pool, local_df, concept_board_df, super_theme_df
+        strong_pool, opportunity_df, obs_pool, local_df, concept_board_df, super_theme_df,
+        divergence_data, cycle_data
     )
 
     # 保存报告
