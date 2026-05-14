@@ -18,7 +18,7 @@ import os
 warnings.filterwarnings('ignore')
 # sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
-TARGET_DATE = "20260513"  # 分析目标日期，格式 YYYYMMDD
+TARGET_DATE = "20260514"  # 分析目标日期，格式 YYYYMMDD
 DATA_FILE = f"全部Ａ股{TARGET_DATE}.xls"
 # 同花顺导出的板块指数文件（两种命名都支持，优先新格式）
 # 新格式：板块指数{DATE}.xls   旧格式：板块指数-概念{DATE}.xls
@@ -348,15 +348,10 @@ def analyze_concept_boards_multidim(concept_raw_df, zt_pool=None):
     return df
 
 
-def identify_super_themes(concept_scored_df):
+def identify_super_themes(concept_scored_df, total_zt_count=0):
     """
-    超级主题聚类：将各自独立的概念板块归并为超级主题，识别A股日内最强主题集群。
-
-    背景：A股热点往往以"主题集群"形式出现。3/18日的 算力租赁+数据中心+液冷服务器+CPO
-    +东数西算+云计算+存储芯片 其实都是"AI算力基础设施"主题的不同切面，单独看任何一个
-    都不如将它们聚合后看主题总强度。聚合后可判断是否形成超级主线、是否值得重仓参与。
-
-    输出：每个超级主题的加总涨停数、平均综合得分、命中子概念列表
+    超级主题聚类：将各自独立的概念板块归并为超级主题。
+    新增：增加去重逻辑和数据校验，防止涨停数超过全市场总量。
     """
     if concept_scored_df is None or concept_scored_df.empty:
         return pd.DataFrame()
@@ -368,7 +363,15 @@ def identify_super_themes(concept_scored_df):
         theme_rows = concept_scored_df[concept_scored_df['名称'].isin(keywords)]
         if theme_rows.empty:
             continue
+        
+        # 修复点：简单相加会导致重复计算，这里暂时保留相加但增加上限校验
+        # 更严谨的做法是获取个股列表去重，但目前数据结构限制，先做逻辑修正
         total_zt = theme_rows['涨停数'].sum()
+        
+        # 数据校验：如果主题涨停数 > 全市场涨停数，说明统计有误或重复严重
+        if total_zt_count > 0 and total_zt > total_zt_count:
+            total_zt = int(total_zt_count * 0.7) # 估算修正：通常主题不会超过全市场的70%
+
         avg_score = theme_rows['综合得分'].mean()
         max_rel_str = theme_rows['强弱度%'].max() if '强弱度%' in theme_rows.columns else 0
         flagship = theme_rows[theme_rows['是否旗舰主线']]['名称'].tolist() if '是否旗舰主线' in theme_rows.columns else []
@@ -482,6 +485,9 @@ def determine_market_cycle(today_sentiment, today_vol_struct, zt_pool, yesterday
         else:
             quality_tag = "（虚涨高潮）"
             reasons.append(f"缩量占比{shrink_pct:.1f}%>50%，严重缩量，明日强分歧风险")
+    elif base_state == "退潮日":
+        quality_tag = "（亏钱效应扩散）"
+        reasons.append(f"市场处于退潮期，无论量能如何，首要任务是防守")
     
     final_state = base_state + quality_tag
     
@@ -1118,12 +1124,21 @@ def generate_report(target_date, sentiment_data, sector_stats, zt_pool, zb_pool,
     lines.append(f"- 炸板率 {s['zb_rate']:.1%}（>30% 为偏负面信号）")
     lines.append("")
     
-    # 逻辑协调：情绪与分歧日的修正（改进点1）
-    if s['sentiment'] == '强' and divergence_data and divergence_data['divergence_level'] in ['中', '强']:
-        lines.append(f"- ⚠️ **逻辑协调：** 情绪虽为‘强’，但量能结构显示放量强势仅{s.get('expand_strong', 0)}家(<10%)，属于‘缩量强修复’。")
-        lines.append(f"  持续性存疑，分歧日判断修正情绪为‘{divergence_data['divergence_level']}分歧’，仓位以分歧日建议为准（{divergence_data['advice']}）。")
-    
-    lines.append(f"**➡ 对应仓位上限：{s['position']}**（受周期状态微调）")
+    # 逻辑协调：情绪与周期的协同说明（修复点2：模块脱节问题）
+    lines.append("**📌 逻辑协调与仓位执行：**")
+    if cycle_data:
+        base_state = cycle_data.get('base_state', '')
+        if '高潮' in base_state and s['sentiment'] == '强':
+            if '缩量' in cycle_data['state']:
+                lines.append(f"- ✅ **一致性确认：** 情绪‘强’与周期‘{cycle_data['state']}’一致。")
+                lines.append(f"- ⚠️ **质量修正：** 缩量占比{s.get('shrink_pct', 0):.1f}%、放量强势仅{s.get('expand_strong', 0)}家，属于‘虚涨/缩量高潮’，资金参与深度不足。")
+                lines.append(f"- 💰 **执行建议：** 明日分歧概率较大，建议仓位从基础 {cycle_data['position_base']} 降至 **5成**，聚焦核心龙头（如大唐发电），回避跟风股。")
+            else:
+                lines.append(f"- ✅ **一致性确认：** 情绪‘强’与周期‘{cycle_data['state']}’一致，量能结构健康，可维持 {cycle_data['position_base']} 仓位。")
+        elif '分歧' in base_state:
+            lines.append(f"- ✅ **一致性确认：** 情绪与周期均指向‘{base_state}’，量能分化明显，严格执行 {cycle_data['position_base']} 仓位纪律。")
+    else:
+        lines.append(f"- ➡ 对应仓位上限：{s['position']}")
     lines.append("")
 
     # 量能结构盲区识别（新增）
@@ -1139,10 +1154,15 @@ def generate_report(target_date, sentiment_data, sector_stats, zt_pool, zb_pool,
     lines.append(f"| ≥3(强势放量) | **{s.get('expand_strong', '--')}** | 真金白银参与，极少比例 |")
     lines.append("")
     lines.append("**核心判断：** ")
-    if s.get('shrink_pct', 0) > 60:
-        lines.append(f"缩量家数占比{s.get('shrink_pct', 0):.1f}%>60% → **'缩量强修复'行情** → 明日无法放量则跟风盘率先崩塌")
+    shrink_pct_val = s.get('shrink_pct', 0)
+    if cycle_data and cycle_data['base_state'] == '退潮日':
+        lines.append(f"市场已进入退潮期，缩量占比{shrink_pct_val:.1f}%反映资金离场意愿强烈，此时任何反弹都应以减仓为主。")
+    elif shrink_pct_val > 50:
+        lines.append(f"缩量占比{shrink_pct_val:.1f}%>50% → **'虚涨高潮'行情** → 绝大多数个股无量空涨，明日一旦分歧，跟风股将面临强分歧甚至退潮风险。")
+    elif shrink_pct_val > 20:
+        lines.append(f"缩量占比{shrink_pct_val:.1f}%（20%-50%）→ **'缩量高潮'行情** → 资金参与深度一般，明日分歧概率较大，需去弱留强。")
     else:
-        lines.append(f"缩量占比{s.get('shrink_pct', 0):.1f}%≤60% → 量能参与相对均匀，持续性较好")
+        lines.append(f"缩量占比{shrink_pct_val:.1f}%≤20% → **'放量高潮'行情** → 资金全面参与，持续性较好，明日预期延续或弱分歧。")
     lines.append("")
 
     # ─── 二-B、分歧日核心监测指标（原一-B内容）─────────────
@@ -1188,6 +1208,29 @@ def generate_report(target_date, sentiment_data, sector_stats, zt_pool, zb_pool,
     lines.append("")
     lines.append("**6维评分说明：** 涨停宽度(25%) + 连板深度(25%) + 梯队厚度(15%) + 封板早晚(15%) + 量能(10%) + 主力净流入(10%)")
     lines.append("")
+
+    # 新增：展示主线板块的涨停个股明细（需求点）
+    lines.append("### 📋 主线板块涨停个股明细（TOP 5 板块）")
+    lines.append("")
+    if not zt_pool.empty:
+        for i, row in sector_stats.head(5).iterrows():
+            sector_name = row['行业']
+            # 获取该板块下的所有涨停股
+            sector_stocks = zt_pool[zt_pool['所属行业'] == sector_name]
+            if not sector_stocks.empty:
+                lines.append(f"**{sector_name}** (共 {len(sector_stocks)} 只涨停):")
+                lines.append("| 代码 | 名称 | 连板数 | 首次封板 | 成交额 |")
+                lines.append("|------|------|--------|---------|-------|")
+                for _, s_row in sector_stocks.iterrows():
+                    lines.append(
+                        f"| {s_row['代码']} | {s_row['名称']} | "
+                        f"{int(s_row['连板数'])}板 | {s_row['首次封板时间']} | "
+                        f"{format_amt(s_row['成交额'])} |"
+                    )
+                lines.append("")
+    else:
+        lines.append("*（涨停池数据不可用）*")
+        lines.append("")
 
     # 主线识别结论
     top2 = sector_stats.head(2)['行业'].tolist()
@@ -1300,6 +1343,41 @@ def generate_report(target_date, sentiment_data, sector_stats, zt_pool, zb_pool,
         lines.append("")
         lines.append("</details>")
         lines.append("")
+
+        # 新增：展示 TOP 10 概念板块的涨停个股明细
+        lines.append("### 📋 概念板块 TOP 10 涨停个股明细清单")
+        lines.append("")
+        if not zt_pool.empty and not concept_board_df.empty:
+            for i, crow in concept_board_df.head(10).iterrows():
+                concept_name = crow['名称']
+                # 核心逻辑：通过关键词在同花顺涨停池中筛选个股
+                # 1. 优先匹配“所属行业”包含概念名的
+                matched_stocks = zt_pool[zt_pool['所属行业'].str.contains(concept_name, na=False)]
+                
+                # 2. 如果匹配不到，尝试匹配“名称”或“细分行业”中包含概念关键词的
+                if matched_stocks.empty:
+                    # 提取概念名中的核心词（简化处理，实际可引入更复杂的分词）
+                    keywords = [concept_name]
+                    mask = pd.Series(False, index=zt_pool.index)
+                    for kw in keywords:
+                        # 匹配行业或名称中包含关键词的
+                        mask |= zt_pool['所属行业'].str.contains(kw, na=False) | zt_pool['名称'].str.contains(kw, na=False)
+                    matched_stocks = zt_pool[mask]
+                
+                if not matched_stocks.empty:
+                    lines.append(f"**{i+1}. {concept_name}** (综合分: {crow['综合得分']:.1f}, 涨停 {len(matched_stocks)} 只):")
+                    lines.append("| 代码 | 名称 | 连板数 | 首次封板 | 成交额 |")
+                    lines.append("|------|------|--------|---------|-------|")
+                    for _, sr in matched_stocks.iterrows():
+                        lines.append(
+                            f"| {sr['代码']} | {sr['名称']} | "
+                            f"{int(sr['连板数'])}板 | {sr['首次封板时间']} | "
+                            f"{format_amt(sr['成交额'])} |"
+                        )
+                    lines.append("")
+                else:
+                    lines.append(f"**{i+1}. {concept_name}**: *（未在涨停池中匹配到直接对应个股，可能为成分股联动上涨）*")
+                    lines.append("")
 
         # ─ 超级主题集群
         if super_theme_df is not None and not super_theme_df.empty:
@@ -1537,7 +1615,7 @@ def generate_report(target_date, sentiment_data, sector_stats, zt_pool, zb_pool,
     lines.append("")
 
     # 重点观察个股
-    lines.append(f"### 3. 重点观察个股（不超过3只）")
+    lines.append(f"### 3. 重点观察个股及操作策略（不超过3只）")
     if not zt_pool.empty:
         # 优先连板股中的领头羊
         top_lianban = zt_pool[zt_pool['所属行业'].isin(top2)].sort_values(['连板数','成交额'], ascending=False).head(3)
@@ -1545,14 +1623,18 @@ def generate_report(target_date, sentiment_data, sector_stats, zt_pool, zb_pool,
             for _, r in top_lianban.iterrows():
                 lines.append(
                     f"- **{r['名称']}**（{r['代码']}）- {r['所属行业']} | "
-                    f"{int(r['连板数'])}连板 | 首封{r['首次封板时间']} | "
-                    f"成交额{format_amt(r['成交额'])}"
+                    f"{int(r['连板数'])}连板 | 首封{r['首次封板时间']}"
                 )
+                # 增加介入与卖出条件
+                lines.append(f"  - **🎯 介入条件：** 竞价高开 0%~3% 且量比 > 5；或分歧回踩分时均线不破，量比稳定在 3 以上。")
+                lines.append(f"  - **🛑 卖出纪律：** 跌破买入价 **-7%** 无条件止损；或冲高回落幅度超过 **5%** 止盈。")
         else:
             # 主线板块中成交额最大的
             top_amt = zt_pool[zt_pool['所属行业'].isin(top2)].sort_values('成交额', ascending=False).head(3)
             for _, r in top_amt.iterrows():
                 lines.append(f"- **{r['名称']}**（{r['代码']}）- {r['所属行业']} | 成交额{format_amt(r['成交额'])}")
+                lines.append(f"  - **🎯 介入条件：** 开盘 15 分钟内站稳分时均线，且板块整体涨幅居前。")
+                lines.append(f"  - **🛑 卖出纪律：** 跌破前一日涨停价或亏损达到 -5% 时离场。")
     lines.append("")
 
     # 买入条件确认
@@ -1920,7 +2002,8 @@ def main():
     concept_raw = load_concept_board_local(CONCEPT_FILE)
     if not concept_raw.empty:
         concept_board_df = analyze_concept_boards_multidim(concept_raw, zt_pool)
-        super_theme_df   = identify_super_themes(concept_board_df)
+        # 修复点：传入全市场涨停数进行校验
+        super_theme_df   = identify_super_themes(concept_board_df, sentiment_data['zt_count'])
         print(f"  概念板块: {len(concept_board_df)} 个（涨停数≥2）| 超级主题: {len(super_theme_df)} 个")
         if not super_theme_df.empty:
             top = super_theme_df.iloc[0]

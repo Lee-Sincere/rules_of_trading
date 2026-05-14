@@ -1,0 +1,832 @@
+{
+  "date": "20260514",
+  "generated_at": "2026-05-15 01:25:11",
+  "sentiment": {
+    "up_count": 929,
+    "down_count": 3959,
+    "flat_count": 53,
+    "zt_count": 55,
+    "zb_count": 31,
+    "zb_rate": 0.3605,
+    "sentiment": "弱",
+    "position": "1成（建议空仓）"
+  },
+  "main_sectors": [
+    {
+      "name": "电力",
+      "limit_up_count": 4,
+      "max_boards": 2,
+      "multi_board_count": 2,
+      "earliest_seal": "092502",
+      "volume_billion": 60.4012,
+      "score_6d": 63.8268,
+      "continuity_rating": "低",
+      "continuity_reasons": [
+        "最高2连板，梯队良好",
+        "大盘下跌，逆势板块",
+        "板块总成交60.4亿，资金参与度高"
+      ],
+      "zb_count": 4,
+      "avg_gain_pct": 10.0,
+      "stocks": [
+        {
+          "code": "600578",
+          "name": "京能电力",
+          "boards": 2,
+          "seal_time": "092502",
+          "explode_count": 3,
+          "volume_billion": 13.8216
+        },
+        {
+          "code": "001210",
+          "name": "金房能源",
+          "boards": 2,
+          "seal_time": "093830",
+          "explode_count": 6,
+          "volume_billion": 4.8301
+        },
+        {
+          "code": "600509",
+          "name": "天富能源",
+          "boards": 1,
+          "seal_time": "094017",
+          "explode_count": 1,
+          "volume_billion": 9.704
+        },
+        {
+          "code": "002617",
+          "name": "露笑科技",
+          "boards": 1,
+          "seal_time": "131548",
+          "explode_count": 0,
+          "volume_billion": 32.0455
+        }
+      ]
+    },
+    {
+      "name": "家居用品",
+      "limit_up_count": 2,
+      "max_boards": 5,
+      "multi_board_count": 1,
+      "earliest_seal": "093039",
+      "volume_billion": 9.8312,
+      "score_6d": 63.6359,
+      "continuity_rating": "低",
+      "continuity_reasons": [
+        "最高5连板，梯队极佳",
+        "大盘下跌，逆势板块"
+      ],
+      "zb_count": 0,
+      "avg_gain_pct": 9.99,
+      "stocks": [
+        {
+          "code": "002918",
+          "name": "蒙娜丽莎",
+          "boards": 5,
+          "seal_time": "093039",
+          "explode_count": 1,
+          "volume_billion": 4.452
+        },
+        {
+          "code": "603610",
+          "name": "麒盛科技",
+          "boards": 1,
+          "seal_time": "131350",
+          "explode_count": 2,
+          "volume_billion": 5.3792
+        }
+      ]
+    },
+    {
+      "name": "化学制品",
+      "limit_up_count": 5,
+      "max_boards": 1,
+      "multi_board_count": 0,
+      "earliest_seal": "093445",
+      "volume_billion": 26.1578,
+      "score_6d": 49.7173,
+      "continuity_rating": "低",
+      "continuity_reasons": [
+        "全部首板，梯队一般",
+        "首板宽度5只，跟风效应强",
+        "大盘下跌，逆势板块"
+      ],
+      "zb_count": 3,
+      "avg_gain_pct": 9.982,
+      "stocks": [
+        {
+          "code": "002971",
+          "name": "和远气体",
+          "boards": 1,
+          "seal_time": "093445",
+          "explode_count": 2,
+          "volume_billion": 6.0642
+        },
+        {
+          "code": "605366",
+          "name": "宏柏新材",
+          "boards": 1,
+          "seal_time": "094505",
+          "explode_count": 0,
+          "volume_billion": 4.011
+        },
+        {
+          "code": "002165",
+          "name": "红 宝 丽",
+          "boards": 1,
+          "seal_time": "094657",
+          "explode_count": 1,
+          "volume_billion": 12.0012
+        },
+        {
+          "code": "605399",
+          "name": "晨光新材",
+          "boards": 1,
+          "seal_time": "094715",
+          "explode_count": 0,
+          "volume_billion": 1.2156
+        },
+        {
+          "code": "002809",
+          "name": "红墙股份",
+          "boards": 1,
+          "seal_time": "102233",
+          "explode_count": 0,
+          "volume_billion": 2.8657
+        }
+      ]
+    },
+    {
+      "name": "汽车零部",
+      "limit_up_count": 2,
+      "max_boards": 3,
+      "multi_board_count": 1,
+      "earliest_seal": "092501",
+      "volume_billion": 5.4979,
+      "score_6d": 45.1268,
+      "continuity_rating": "低",
+      "continuity_reasons": [
+        "最高3连板，梯队极佳",
+        "大盘下跌，逆势板块"
+      ],
+      "zb_count": 1,
+      "avg_gain_pct": 9.995,
+      "stocks": [
+        {
+          "code": "603007",
+          "name": "花王股份",
+          "boards": 3,
+          "seal_time": "092501",
+          "explode_count": 0,
+          "volume_billion": 2.6801
+        },
+        {
+          "code": "002976",
+          "name": "瑞玛精密",
+          "boards": 1,
+          "seal_time": "144927",
+          "explode_count": 0,
+          "volume_billion": 2.8178
+        }
+      ]
+    },
+    {
+      "name": "光伏设备",
+      "limit_up_count": 4,
+      "max_boards": 1,
+      "multi_board_count": 0,
+      "earliest_seal": "092500",
+      "volume_billion": 83.3021,
+      "score_6d": 44.5177,
+      "continuity_rating": "低",
+      "continuity_reasons": [
+        "全部首板，梯队一般",
+        "首板宽度4只，跟风效应强",
+        "大盘下跌，逆势板块",
+        "板块总成交83.3亿，资金参与度高"
+      ],
+      "zb_count": 1,
+      "avg_gain_pct": 10.015,
+      "stocks": [
+        {
+          "code": "002309",
+          "name": "中利集团",
+          "boards": 1,
+          "seal_time": "092500",
+          "explode_count": 0,
+          "volume_billion": 6.1684
+        },
+        {
+          "code": "002506",
+          "name": "协鑫集成",
+          "boards": 1,
+          "seal_time": "093324",
+          "explode_count": 1,
+          "volume_billion": 38.4205
+        },
+        {
+          "code": "600481",
+          "name": "双良节能",
+          "boards": 1,
+          "seal_time": "094206",
+          "explode_count": 4,
+          "volume_billion": 22.9991
+        },
+        {
+          "code": "003022",
+          "name": "联泓新科",
+          "boards": 1,
+          "seal_time": "134603",
+          "explode_count": 0,
+          "volume_billion": 15.7141
+        }
+      ]
+    }
+  ],
+  "observation_pool": {
+    "leaders": [
+      {
+        "code": "600578",
+        "name": "京能电力",
+        "sector": "电力",
+        "boards": 2,
+        "seal_time": "092502",
+        "volume_billion": 13.8216,
+        "explode_count": 3,
+        "role": "龙头"
+      },
+      {
+        "code": "001210",
+        "name": "金房能源",
+        "sector": "电力",
+        "boards": 2,
+        "seal_time": "093830",
+        "volume_billion": 4.8301,
+        "explode_count": 6,
+        "role": "龙头"
+      },
+      {
+        "code": "002918",
+        "name": "蒙娜丽莎",
+        "sector": "家居用品",
+        "boards": 5,
+        "seal_time": "093039",
+        "volume_billion": 4.452,
+        "explode_count": 1,
+        "role": "龙头"
+      },
+      {
+        "code": "603610",
+        "name": "麒盛科技",
+        "sector": "家居用品",
+        "boards": 1,
+        "seal_time": "131350",
+        "volume_billion": 5.3792,
+        "explode_count": 2,
+        "role": "龙头"
+      }
+    ],
+    "army": [
+      {
+        "code": "002617",
+        "name": "露笑科技",
+        "sector": "电力",
+        "boards": 1,
+        "seal_time": "131548",
+        "volume_billion": 32.0455,
+        "explode_count": 0,
+        "role": "中军"
+      },
+      {
+        "code": "600578",
+        "name": "京能电力",
+        "sector": "电力",
+        "boards": 2,
+        "seal_time": "092502",
+        "volume_billion": 13.8216,
+        "explode_count": 3,
+        "role": "中军"
+      },
+      {
+        "code": "600509",
+        "name": "天富能源",
+        "sector": "电力",
+        "boards": 1,
+        "seal_time": "094017",
+        "volume_billion": 9.704,
+        "explode_count": 1,
+        "role": "中军"
+      },
+      {
+        "code": "603610",
+        "name": "麒盛科技",
+        "sector": "家居用品",
+        "boards": 1,
+        "seal_time": "131350",
+        "volume_billion": 5.3792,
+        "explode_count": 2,
+        "role": "中军"
+      },
+      {
+        "code": "002918",
+        "name": "蒙娜丽莎",
+        "sector": "家居用品",
+        "boards": 5,
+        "seal_time": "093039",
+        "volume_billion": 4.452,
+        "explode_count": 1,
+        "role": "中军"
+      }
+    ],
+    "quant_top15": [
+      {
+        "code": "002918",
+        "name": "蒙娜丽莎",
+        "sector": "家居用品",
+        "score": 120.6973,
+        "gain_pct": 10.0,
+        "vol_ratio": 1.54,
+        "turnover_pct": 12.41,
+        "lead_net_pct": 4.46,
+        "boards": 0
+      },
+      {
+        "code": "001259",
+        "name": "利仁科技",
+        "sector": "小家电",
+        "score": 86.3612,
+        "gain_pct": 10.0,
+        "vol_ratio": 0.22,
+        "turnover_pct": 0.87,
+        "lead_net_pct": 0.82,
+        "boards": 0
+      },
+      {
+        "code": "002940",
+        "name": "昂利康",
+        "sector": "化学制药",
+        "score": 85.8796,
+        "gain_pct": 9.99,
+        "vol_ratio": 1.48,
+        "turnover_pct": 16.12,
+        "lead_net_pct": 7.11,
+        "boards": 0
+      },
+      {
+        "code": "600857",
+        "name": "宁波中百",
+        "sector": "一般零售",
+        "score": 81.2988,
+        "gain_pct": 9.99,
+        "vol_ratio": 4.77,
+        "turnover_pct": 11.91,
+        "lead_net_pct": 3.77,
+        "boards": 0
+      },
+      {
+        "code": "600903",
+        "name": "贵州燃气",
+        "sector": "燃气Ⅱ",
+        "score": 79.2293,
+        "gain_pct": 10.04,
+        "vol_ratio": 4.9,
+        "turnover_pct": 8.35,
+        "lead_net_pct": 3.59,
+        "boards": 0
+      },
+      {
+        "code": "002165",
+        "name": "红 宝 丽",
+        "sector": "化学制品",
+        "score": 76.2328,
+        "gain_pct": 9.95,
+        "vol_ratio": 2.64,
+        "turnover_pct": 17.92,
+        "lead_net_pct": 8.58,
+        "boards": 0
+      },
+      {
+        "code": "600481",
+        "name": "双良节能",
+        "sector": "光伏设备",
+        "score": 74.9717,
+        "gain_pct": 9.95,
+        "vol_ratio": 4.22,
+        "turnover_pct": 16.35,
+        "lead_net_pct": 5.8,
+        "boards": 0
+      },
+      {
+        "code": "002506",
+        "name": "协鑫集成",
+        "sector": "光伏设备",
+        "score": 71.5834,
+        "gain_pct": 10.11,
+        "vol_ratio": 1.89,
+        "turnover_pct": 13.59,
+        "lead_net_pct": 6.98,
+        "boards": 0
+      }
+    ]
+  },
+  "all_board_stocks": [
+    {
+      "code": "002918",
+      "name": "蒙娜丽莎",
+      "boards": 5,
+      "seal_time": "093039",
+      "explode_count": 1,
+      "volume_billion": 4.452,
+      "sector": "家居用品"
+    },
+    {
+      "code": "001259",
+      "name": "利仁科技",
+      "boards": 4,
+      "seal_time": "092500",
+      "explode_count": 0,
+      "volume_billion": 0.2287,
+      "sector": "小家电"
+    },
+    {
+      "code": "603052",
+      "name": "可川科技",
+      "boards": 3,
+      "seal_time": "092501",
+      "explode_count": 4,
+      "volume_billion": 8.5856,
+      "sector": "消费电子"
+    },
+    {
+      "code": "603007",
+      "name": "花王股份",
+      "boards": 3,
+      "seal_time": "092501",
+      "explode_count": 0,
+      "volume_billion": 2.6801,
+      "sector": "汽车零部"
+    },
+    {
+      "code": "002208",
+      "name": "合肥城建",
+      "boards": 3,
+      "seal_time": "094421",
+      "explode_count": 5,
+      "volume_billion": 18.8827,
+      "sector": "房地产开"
+    },
+    {
+      "code": "603779",
+      "name": "威龙股份",
+      "boards": 2,
+      "seal_time": "092501",
+      "explode_count": 0,
+      "volume_billion": 0.1632,
+      "sector": "非白酒"
+    },
+    {
+      "code": "600156",
+      "name": "华升股份",
+      "boards": 2,
+      "seal_time": "092504",
+      "explode_count": 0,
+      "volume_billion": 0.6174,
+      "sector": "纺织制造"
+    },
+    {
+      "code": "600578",
+      "name": "京能电力",
+      "boards": 2,
+      "seal_time": "092502",
+      "explode_count": 3,
+      "volume_billion": 13.8216,
+      "sector": "电力"
+    },
+    {
+      "code": "002940",
+      "name": "昂利康",
+      "boards": 2,
+      "seal_time": "093021",
+      "explode_count": 9,
+      "volume_billion": 11.9155,
+      "sector": "化学制药"
+    },
+    {
+      "code": "688146",
+      "name": "中船特气",
+      "boards": 2,
+      "seal_time": "093349",
+      "explode_count": 42,
+      "volume_billion": 37.6765,
+      "sector": "半导体"
+    },
+    {
+      "code": "001210",
+      "name": "金房能源",
+      "boards": 2,
+      "seal_time": "093830",
+      "explode_count": 6,
+      "volume_billion": 4.8301,
+      "sector": "电力"
+    },
+    {
+      "code": "603093",
+      "name": "南华期货",
+      "boards": 2,
+      "seal_time": "100143",
+      "explode_count": 24,
+      "volume_billion": 11.2495,
+      "sector": "多元金融"
+    },
+    {
+      "code": "002782",
+      "name": "可立克",
+      "boards": 2,
+      "seal_time": "100442",
+      "explode_count": 5,
+      "volume_billion": 15.261,
+      "sector": "其他电子"
+    },
+    {
+      "code": "001223",
+      "name": "欧克科技",
+      "boards": 2,
+      "seal_time": "131315",
+      "explode_count": 1,
+      "volume_billion": 3.5868,
+      "sector": "自动化设"
+    },
+    {
+      "code": "600903",
+      "name": "贵州燃气",
+      "boards": 2,
+      "seal_time": "133054",
+      "explode_count": 0,
+      "volume_billion": 7.1122,
+      "sector": "燃气Ⅱ"
+    },
+    {
+      "code": "600857",
+      "name": "宁波中百",
+      "boards": 2,
+      "seal_time": "133318",
+      "explode_count": 0,
+      "volume_billion": 3.9149,
+      "sector": "一般零售"
+    }
+  ],
+  "concept_top20": [
+    {
+      "name": "猪肉",
+      "score": 60.2863,
+      "limit_count": 4,
+      "gain_pct": 2.57,
+      "rela_pct": 4.09,
+      "turnover_z": 4.67,
+      "signals": [
+        "旗舰",
+        "攻守"
+      ],
+      "signal_count": 2
+    },
+    {
+      "name": "第三代半导体",
+      "score": 54.6117,
+      "limit_count": 7,
+      "gain_pct": 0.71,
+      "rela_pct": 2.24,
+      "turnover_z": 11.9,
+      "signals": [
+        "量异",
+        "趋势"
+      ],
+      "signal_count": 2
+    },
+    {
+      "name": "工业气体",
+      "score": 46.6126,
+      "limit_count": 2,
+      "gain_pct": 1.83,
+      "rela_pct": 3.36,
+      "turnover_z": 7.39,
+      "signals": [
+        "量异",
+        "趋势"
+      ],
+      "signal_count": 2
+    },
+    {
+      "name": "ST板块",
+      "score": 45.0377,
+      "limit_count": 25,
+      "gain_pct": -1.33,
+      "rela_pct": 0.19,
+      "turnover_z": 4.06,
+      "signals": [
+        "形态"
+      ],
+      "signal_count": 1
+    },
+    {
+      "name": "聚氨酯",
+      "score": 43.1624,
+      "limit_count": 3,
+      "gain_pct": 0.34,
+      "rela_pct": 1.86,
+      "turnover_z": 6.05,
+      "signals": [
+        "量异",
+        "趋势",
+        "形态"
+      ],
+      "signal_count": 3
+    },
+    {
+      "name": "先进封装",
+      "score": 41.0011,
+      "limit_count": 3,
+      "gain_pct": -0.68,
+      "rela_pct": 0.84,
+      "turnover_z": 11.53,
+      "signals": [
+        "量异",
+        "趋势"
+      ],
+      "signal_count": 2
+    },
+    {
+      "name": "CPO概念",
+      "score": 38.1543,
+      "limit_count": 5,
+      "gain_pct": -1.18,
+      "rela_pct": 0.34,
+      "turnover_z": 11.67,
+      "signals": [
+        "量异",
+        "趋势"
+      ],
+      "signal_count": 2
+    },
+    {
+      "name": "光伏",
+      "score": 37.6274,
+      "limit_count": 21,
+      "gain_pct": -1.71,
+      "rela_pct": -0.18,
+      "turnover_z": 7.17,
+      "signals": [
+        "量异"
+      ],
+      "signal_count": 1
+    },
+    {
+      "name": "光通信",
+      "score": 36.1181,
+      "limit_count": 5,
+      "gain_pct": -1.12,
+      "rela_pct": 0.41,
+      "turnover_z": 8.99,
+      "signals": [
+        "量异",
+        "趋势"
+      ],
+      "signal_count": 2
+    },
+    {
+      "name": "光刻机",
+      "score": 35.3987,
+      "limit_count": 3,
+      "gain_pct": -0.61,
+      "rela_pct": 0.91,
+      "turnover_z": 9.31,
+      "signals": [
+        "量异",
+        "趋势"
+      ],
+      "signal_count": 2
+    },
+    {
+      "name": "芯片",
+      "score": 35.2553,
+      "limit_count": 14,
+      "gain_pct": -1.26,
+      "rela_pct": 0.26,
+      "turnover_z": 7.62,
+      "signals": [
+        "量异"
+      ],
+      "signal_count": 1
+    },
+    {
+      "name": "有机硅概念",
+      "score": 34.5085,
+      "limit_count": 3,
+      "gain_pct": 0.13,
+      "rela_pct": 1.65,
+      "turnover_z": 7.22,
+      "signals": [
+        "量异"
+      ],
+      "signal_count": 1
+    },
+    {
+      "name": "白酒概念",
+      "score": 33.0463,
+      "limit_count": 3,
+      "gain_pct": 0.4,
+      "rela_pct": 1.92,
+      "turnover_z": 5.05,
+      "signals": [],
+      "signal_count": 0
+    },
+    {
+      "name": "医废处理",
+      "score": 32.3259,
+      "limit_count": 2,
+      "gain_pct": -1.0,
+      "rela_pct": 0.53,
+      "turnover_z": 6.67,
+      "signals": [
+        "量异",
+        "形态"
+      ],
+      "signal_count": 2
+    },
+    {
+      "name": "降解塑料",
+      "score": 31.8344,
+      "limit_count": 2,
+      "gain_pct": -0.63,
+      "rela_pct": 0.9,
+      "turnover_z": 4.58,
+      "signals": [
+        "形态"
+      ],
+      "signal_count": 1
+    },
+    {
+      "name": "BIPV概念",
+      "score": 31.4679,
+      "limit_count": 5,
+      "gain_pct": -1.73,
+      "rela_pct": -0.2,
+      "turnover_z": 7.64,
+      "signals": [
+        "量异",
+        "形态"
+      ],
+      "signal_count": 2
+    },
+    {
+      "name": "绿色电力",
+      "score": 31.2379,
+      "limit_count": 9,
+      "gain_pct": -2.25,
+      "rela_pct": -0.73,
+      "turnover_z": 7.31,
+      "signals": [
+        "量异",
+        "形态"
+      ],
+      "signal_count": 2
+    },
+    {
+      "name": "消费电子概念",
+      "score": 31.1853,
+      "limit_count": 8,
+      "gain_pct": -1.34,
+      "rela_pct": 0.19,
+      "turnover_z": 7.72,
+      "signals": [
+        "量异"
+      ],
+      "signal_count": 1
+    },
+    {
+      "name": "光热发电",
+      "score": 31.1748,
+      "limit_count": 2,
+      "gain_pct": -1.39,
+      "rela_pct": 0.14,
+      "turnover_z": 7.58,
+      "signals": [
+        "量异",
+        "形态"
+      ],
+      "signal_count": 2
+    },
+    {
+      "name": "TOPCon电池",
+      "score": 31.1149,
+      "limit_count": 3,
+      "gain_pct": -0.37,
+      "rela_pct": 1.15,
+      "turnover_z": 7.78,
+      "signals": [
+        "量异",
+        "趋势"
+      ],
+      "signal_count": 2
+    }
+  ]
+}
