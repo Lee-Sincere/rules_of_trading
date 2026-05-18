@@ -18,7 +18,7 @@ import os
 warnings.filterwarnings('ignore')
 # sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
-TARGET_DATE = "20260514"  # 分析目标日期，格式 YYYYMMDD
+TARGET_DATE = "20260518"  # 分析目标日期，格式 YYYYMMDD
 DATA_FILE = f"全部Ａ股{TARGET_DATE}.xls"
 # 同花顺导出的板块指数文件（两种命名都支持，优先新格式）
 # 新格式：板块指数{DATE}.xls   旧格式：板块指数-概念{DATE}.xls

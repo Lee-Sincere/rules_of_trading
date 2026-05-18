@@ -1,6 +1,6 @@
 {
   "date": "20260514",
-  "generated_at": "2026-05-15 01:25:11",
+  "generated_at": "2026-05-17 23:09:00",
   "sentiment": {
     "up_count": 929,
     "down_count": 3959,
@@ -449,15 +449,6 @@
       "sector": "小家电"
     },
     {
-      "code": "603052",
-      "name": "可川科技",
-      "boards": 3,
-      "seal_time": "092501",
-      "explode_count": 4,
-      "volume_billion": 8.5856,
-      "sector": "消费电子"
-    },
-    {
       "code": "603007",
       "name": "花王股份",
       "boards": 3,
@@ -465,6 +456,15 @@
       "explode_count": 0,
       "volume_billion": 2.6801,
       "sector": "汽车零部"
+    },
+    {
+      "code": "603052",
+      "name": "可川科技",
+      "boards": 3,
+      "seal_time": "092501",
+      "explode_count": 4,
+      "volume_billion": 8.5856,
+      "sector": "消费电子"
     },
     {
       "code": "002208",
